@@ -1,0 +1,80 @@
+div.User_upolad {
+    border-style: solid;
+    border-color: coral;
+  }
+  div.user_info{
+    border-style: solid;
+    border-color:#3333ff;
+  }
+
+  /*
+ * Component: Small Box
+ * --------------------
+ */
+.small-box {
+  border-radius: 6px;
+  position: relative;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  display: block;
+  color: white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.small-box-footer {
+  position: relative;
+  text-align: center;
+  padding: 3px 0;
+  color: rgba(8, 8, 8, 0.8) !important;
+  display: block;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+
+.small-box:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
