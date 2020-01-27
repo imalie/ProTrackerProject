@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
     <script type="text/javascript" src="../res/ad/jquery.min.js"></script>
     <script type="text/javascript" src="../res/ad/bootstrap.js"></script>
-    
+  
 </head>
 <body class="">
       <!-- Navbar -->
@@ -60,8 +60,6 @@
                             <i class="material-icons">account_circle</i>Create Project</a></button>-->
                     <table class="table table-hover table-striped table-responsive-sm" >
                         <thead class="thead-dark ">
-                            
-                        <thead>
                             <tr class="">
                                 <th class="">Project ID</th>
                                 <th class="">Project Name</th>
@@ -70,6 +68,7 @@
                                 <th class="">Start Date</th>
                                 <th class="">End Date</th>
                                 <th class="">Release Date</th>
+                                <th class="">Option</th>
                             </tr>
                         </thead>
                         <tbody>

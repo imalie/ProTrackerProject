@@ -13,10 +13,18 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
+    <script type="text/javascript" src="../res/ad/jquery.min.js"></script>
+    <script type="text/javascript" src="../res/ad/bootstrap.js"></script>
+  
+    
 </head>
+ <!-- Navbar -->
+ <?php include('mainHead.php') ?>
+    <!-- End Navbar -->
 <body class="">
     <div class="wrapper">
-        <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
+        <div class="sidebar" data-color="green" style="margin-top: 80px;"  data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item active  ">
@@ -59,9 +67,7 @@
             </div>
         </div>
         <div class="main-panel">
-            <!-- Navbar -->
-            <?php include('mainHead.php') ?>
-            <!-- End Navbar -->
+           
             <div class="content">
                 <div class="container-fluid">
                     <?php
@@ -69,8 +75,8 @@
                     ?>
                     <!--<button type="button" class="btn btn-outline-secondary"><a href="./stages.php">Add Stage</a></button>-->
 
-                    <table class="table table-hover">
-                        <table class="table border">
+                    <table class="table table-hover table-striped table-responsive-sm" >
+                        <thead class="thead-dark ">
                             <thead>
                                 <tr class="">
                                     <th class="">Project ID</th>
@@ -110,9 +116,9 @@
                             }
                             ?>
                             </tbody>
-                        </table>
+                     </table>
                 </div>
-                <tbody>
+                
             </div>
         </div>
         <footer class="footer">

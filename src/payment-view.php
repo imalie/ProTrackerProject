@@ -17,6 +17,9 @@
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
 </head>
+ <!-- Navbar -->
+ <?php include('mainHead.php') ?>
+            <!-- End Navbar -->
 <body class="">
 <div class="wrapper">
     <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">

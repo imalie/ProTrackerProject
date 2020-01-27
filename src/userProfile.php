@@ -323,7 +323,7 @@ function check_old_pass($conn, $oldPassword)
                                 </div>
                             </div>
                             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                <h4><u>User Informations</u></h4>
+                                <h4><u>User Information</u></h4>
                                 <div class="row">
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                         <label>First Name</label> <?php if (isset($validateError['firstName'])) {
