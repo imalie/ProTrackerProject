@@ -183,8 +183,10 @@
         </div>
       </div>
       <footer class="footer">
-        <?php include('mainFooter.php') ?>
-      </footer>
+                    <div class="container-fluid">
+                        <?php include('mainFooter.php') ?>
+                    </div>
+            </footer>
     </div>
   </div>
   <!--   Core JS Files   -->

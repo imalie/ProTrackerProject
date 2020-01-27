@@ -109,10 +109,10 @@ if (isset($_POST['submit'])) {
                 $validateError['password'] = "Your Password Must Contain At Least 1 Capital Letter!";
             } elseif(!preg_match("#[a-z]+#",$password)) {
                 $validateError['password'] = "Your Password Must Contain At Least 1 Lowercase Letter!";
+            }  elseif(!preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password)) {
+                $validateError['password'] = "Your Password Must Contain At Least 1 Special Character !";
             } elseif($password != $confirmPass) {
                 $validateError['confirmPass'] = "password confirm error";
-            } elseif(!preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password)) {
-                $validateError['password'] = "Your Password Must Contain At Least 1 Special Character !";
             } else {
                 $password = md5($password); // A1234567c
             }
@@ -124,9 +124,10 @@ if (isset($_POST['submit'])) {
                     VALUES ('" . $firstName . "','" . $lastName . "','" . $address . "','" . $telNo . "','" . $nic . "','" . $email . "','" . $password . "','" . $userType . "','" . $defaultImagePath . "','" . $_SESSION['userEmail'] . "');";
 
         if (mysqli_query($conn, $dbQuery)) {
-            $SubmitStatus['dbStatus'] = "Submit success";
+            $SubmitStatus['dbStatus'] = "User Created successfully!!";
+
         } else {
-            $SubmitStatus['dbError'] = "Update error to database";
+            $SubmitStatus['dbError'] = "Oops error occured when creating User";
         }
         //close the db connection
         mysqli_close($conn);
@@ -150,7 +151,7 @@ function check_duplicate_email($conn, $email)
 function check_duplicate_nic($conn, $nic)
 {
     //define query variable and set the db query
-    $dbQuery = "SELECT nic FROM users WHERE nic = '" . $nic . "';";
+    $dbQuery = "SELECT nic FROM `users` WHERE nic = '" . $nic . "';";
     //get the result from db
     $dbResult = mysqli_query($conn, $dbQuery);
     if ($dbResult && mysqli_num_rows($dbResult) == 1) {
@@ -161,7 +162,7 @@ function check_duplicate_nic($conn, $nic)
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+
 
 <head>
     <meta charset="utf-8" />
@@ -174,13 +175,20 @@ function check_duplicate_nic($conn, $nic)
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
+    <style>
+        #bold{font-weight: bold;}
+    </style>
 
 
 </head>
+<!-- Navbar -->
+            <?php include('mainHead.php') ?>
+            <!-- End Navbar -->
 
 <body class="">
     <div class="wrapper">
-        <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
+        <div class="sidebar" data-color="green" style="margin-top: 80px;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item active  ">
@@ -205,23 +213,75 @@ function check_duplicate_nic($conn, $nic)
             </div>
         </div>
         <div class="main-panel">
-            <!-- Navbar -->
-            <?php include('mainHead.php') ?>
-            <!-- End Navbar -->
+            
             <div class="content">
                 <div class="container-fluid">
-                    <h3><u>Add New User</u></h3>
+
+
+            <div class="col-lg-12 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                   <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">person</i>
+                  </div>
+
+                  <h3 class="card-title"> Add User
+                  </h3>
+                </div>
+
+            
+                <div class="card-header card-header-warning card-header-icon">
+                  
+
+
+<br>
+<br>
+  
+
+                  <?php
+
+                        if (isset($SubmitStatus['dbStatus'])) {
+
+
+                            // echo '<lable class="text-success">' . $SubmitStatus['dbStatus'] . '</lable>';
+
+                              echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                              <strong>' . $SubmitStatus['dbStatus'] . '</strong> 
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>';
+                    ?>
+
+                    <?php
+                        } else if (isset($SubmitStatus['dbError'])) {
+                            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                              <strong>' . $SubmitStatus['dbStatus'] . '</strong> 
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>';
+                        }
+
+
+
+
+                        ?>
+
                     <form class="form-group" method="post">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label>First Name:</label>
+                                <label id = "bold">First Name:</label>
+                               
+                                <br>
                                 <input type="text" class="form-control" name="firstName" maxlength="30" required>
                                 <?php if (isset($validateError['firstName'])) {
                                                                 echo '<span style="color:red">  ' . $validateError['firstName'] . '</span>';
                                                             } ?>
                             </div>
                             <div class="form-group col-md-6">
-                                <label>Last Name:</label>
+                                <label id = "bold">Last Name:</label>
+                                <br>
                                 <input type="text" class="form-control" name="lastName" maxlength="30" required>
                                 <?php if (isset($validateError['lastName'])) {
                                                                 echo '<span style="color:red">  ' . $validateError['lastName'] . '</span>';
@@ -229,36 +289,40 @@ function check_duplicate_nic($conn, $nic)
                                 
                             </div>
                         </div>
+                          <br>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <label>Address:</label>
-                                <textarea required="required" class="form-control" name="address"></textarea>
+                                <label id = "bold">Address:</label>
+                                <br>
+                                <textarea required="required" class="form-control" name="address" style="padding-bottom: 0px !important; "></textarea>
                                 <?php if (isset($validateError['address'])) {
                                                             echo '<span style="color:red">  ' . $validateError['address'] . '</span>';
                                                         } ?>
                                
                             </div>
                         </div>
+                          <br>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Contact No:</label>
+                            <div class="form-group col-md-4">
+                                <label id = "bold">Contact No:</label>
+                                <br>
                                 <input type="tel" class="form-control" name="telNo" required>
                                 <?php if (isset($validateError['telNo'])) {
                                                                 echo '<span style="color:red">  ' . $validateError['telNo'] . '</span>';
                                                             } ?>
                                 
                             </div>
-                            <div class="form-group col-md-6">
-                                <label>NIC: </label>
+                            <div class="form-group col-md-4">
+                                <label id = "bold">NIC: </label>
+                                <br>
                                 <input type="text" class="form-control" name="nic" required>
                                 <?php if (isset($validateError['nic'])) {
                                                         echo '<span style="color:red">  ' . $validateError['nic'] . '</span>';
-                                                    } ?></label>
+                                                    } ?>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6" class="alert alert-primary" role="alert">
-                                <label>Email:</label>
+                            <div class="form-group col-md-4" class="alert alert-primary" role="alert">
+                                <label id = "bold">Email:</label>
+                                <br>
                                
                                     <input type="email" class="form-control" name="email" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                     <?php if (isset($validateError['email'])) {
@@ -267,9 +331,15 @@ function check_duplicate_nic($conn, $nic)
                                 
                             </div>
                         </div>
+                           <br>
+                        <div class="form-row">
+                            
+                        </div>
+
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label>password:</label>
+                                <label id = "bold">Password:</label>
+                                <br>
                                 <input type="password" class="form-control" name="password" required>
                                 <?php if (isset($validateError['password'])) {
                                                             echo '<span style="color:red">  ' . $validateError['password'] . '</span>';
@@ -277,18 +347,28 @@ function check_duplicate_nic($conn, $nic)
                                 
                             </div>
                             <div class="form-group col-md-6">
-                                <label> Confirm password:</label>
+                                <label id = "bold"> Confirm password:</label>
+                                <br>
                                 <input type="password" class="form-control" name="confirmPass" required>
                                 <?php if (isset($validateError['confirmPass'])) {
                                                                         echo '<span style="color:red">  ' . $validateError['confirmPass'] . '</span>';
                                                                     } ?>
                                 
                             </div>
+                        </div>
 
                             <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label> User type:</label>
-                                    <div class="form-row">
+                                <div class="form-group col-md-1">
+                                     <label id = "bold"> User type:</label>
+                                     <br>
+                                </div>
+
+
+
+
+                                <div class="form-group col-md-9">
+                                   
+                                    <div class="form-row col-md-12">
                                         <div class="form-check form-check-radio form-check-inline">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="radio" name="userType" id="lineRadio_superuser" value="superuser">Super User
@@ -318,24 +398,76 @@ function check_duplicate_nic($conn, $nic)
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                       
                             <div class="col-md-12">
-                                <button class="btn btn-success float-right" name="submit" value="submit">Create User</button>
+                                <button class="btn btn-success float-right" name="submit" value="submit" data-toggle="modal"  data-target="#remarkModal">Create User</button>
                             </div>
                         </div>
-
-                        <?php
-                        if (isset($SubmitStatus['dbStatus'])) {
-                            echo '<lable class="text-success">' . $SubmitStatus['dbStatus'] . '</lable>';
-                        } else if (isset($SubmitStatus['dbError'])) {
-                            echo '<lable class="text-danger">' . $SubmitStatus['dbStatus'] . '</lable>';
-                        }
-                        ?>
-                    </form>
+<!-- 
+<div class="modal" role="dialog" id="remarkModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="modal-title">Alert</label>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                         
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div> -->
+
+
+
+
+
+                
+                      
+
+   
+                    </form>
+
+
+
+ 
+
+
+
+
+
+
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <!--<i class="material-icons">exit_to_app</i>-->
+                    <!--<a href="/Pro_Tracker/src/UserReport.php">View More User details..</a>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+                    
+                </div>
+            </div>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <?php include('mainFooter.php') ?>
+                </div>
+            </footer>
+        </div>
     </div>
+
 
     <!--   Core JS Files   -->
     <script src="../assets/js/core/jquery.min.js"></script>
@@ -345,5 +477,31 @@ function check_duplicate_nic($conn, $nic)
     <script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 
 </body>
+</html>
 
-<?php include_once 'mainFooter.php'; ?>
+
+<div class="modal" tabindex="-1" role="dialog" id="messege_modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p> <?php
+                        if (isset($SubmitStatus['dbStatus'])) {
+                            echo '<lable class="text-success">' . $SubmitStatus['dbStatus'] . '</lable>';
+                        } else if (isset($SubmitStatus['dbError'])) {
+                            echo '<lable class="text-danger">' . $SubmitStatus['dbStatus'] . '</lable>';
+                        }
+                        ?></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

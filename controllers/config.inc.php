@@ -2,7 +2,7 @@
 //DBMS Connection settings
 $dbServer = "localhost";
 $dbUser = "root";
-$dbPassword = "";
+$dbPassword = "root";
 $dbDatabase = "pro_tracker";
 
 //DBMS Connection create

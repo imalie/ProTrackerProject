@@ -12,8 +12,15 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
+    <script type="text/javascript" src="../res/ad/jquery.min.js"></script>
+    <script type="text/javascript" src="../res/ad/bootstrap.js"></script>
+    
 </head>
 <body class="">
+      <!-- Navbar -->
+      <?php include('mainHead.php') ?>
+            <!-- End Navbar -->
     <div class="wrapper">
         <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
             <div class="sidebar-wrapper">
@@ -44,15 +51,16 @@
             </div>
         </div>
         <div class="main-panel">
-            <!-- Navbar -->
-            <?php include('mainHead.php') ?>
-            <!-- End Navbar -->
             <div class="content">
                 <div class="container-fluid">
+                    <?php
+                    include_once '../controllers/config.inc.php';
+                    ?>
                     <!--<button type="button" class="btn btn-outline-secondary"><a href="projectCreate.php">
                             <i class="material-icons">account_circle</i>Create Project</a></button>-->
-                    <table class="table table-hover">
-                        <thead class="thead-light"></thead>
+                    <table class="table table-hover table-striped table-responsive-sm" >
+                        <thead class="thead-dark ">
+                            
                         <thead>
                             <tr class="">
                                 <th class="">Project ID</th>
@@ -97,6 +105,20 @@
                     </table>
                 </div>
             </div>
+            <footer class="footer">
+                    <div class="container-fluid">
+                        <?php include('mainFooter.php') ?>
+                    </div>
+                </footer>
         </div>
     </div>
-    <?php include_once 'mainFooter.php' ?>
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/jquery.min.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+</body>
+</html>
+       
+   

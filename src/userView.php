@@ -218,6 +218,8 @@ function check_duplicate_nic($conn, $nic)
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
+
 
     <style>
         .profile-img {
@@ -248,7 +250,7 @@ function check_duplicate_nic($conn, $nic)
         }
     </style>
 </head>
-
+<?php include('mainHead.php')  ?>
 <body class="">
     <div class="wrapper">
         <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
@@ -276,8 +278,7 @@ function check_duplicate_nic($conn, $nic)
             </div>
         </div>
         <div class="main-panel">
-            <?php include('mainHead.php')
-            ?>
+          
             <div class="content">
                 <div class="container-fluid">
                     <h3><u>User Informations</u></h3>

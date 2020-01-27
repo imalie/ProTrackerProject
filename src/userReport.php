@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,13 +13,19 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
+    <script type="text/javascript" src="../res/ad/jquery.min.js"></script>
+    <script type="text/javascript" src="../res/ad/bootstrap.js"></script>
+    
 </head>
-
 <body class="">
+    <!-- Navbar -->
+            <?php include('mainHead.php') ?>
+            <!-- End Navbar -->
     <div class="wrapper">
-        <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
-            <div class="sidebar-wrapper">
-                <ul class="nav">
+        <div class="sidebar" data-color="green" style="margin-top: 80px;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
+        <div class="sidebar-wrapper">
+        <ul class="nav">
                     <li class="nav-item active  ">
                         <a class="nav-link" href="./dashboard.php">
                             <i class="material-icons">dashboard</i>
@@ -40,10 +47,8 @@
                 </ul>
             </div>
         </div>
-        <div class="main-panel">
-            <!-- Navbar -->
-            <?php include('mainHead.php') ?>
-            <!-- End Navbar -->
+        <div class="main-panel" >
+     
             <div class="content">
                 <div class="container-fluid">
                     <h3>
@@ -52,19 +57,21 @@
                     <!-- <button type="button" class="btn btn-outline-secondary"><a href="./userAdd.php">
                             <i class="material-icons">account_circle</i>Add User</a></button> -->
 
-                    <table class="table table-hover">
-                        <thead class="thead-light">
+                    <table class="table table-hover table-striped table-responsive-sm" >
+                        <thead class="thead-dark ">
+                            
                             <tr class="">
-                                <th class="">First Name</th>
-                                <th class="">Last Name</th>
-                                <th class="">Address</th>
-                                <th class="">Contact No</th>
-                                <th class="">NIC</th>
-                                <th class="">Email</th>
-                                <th class="">Registered date</th>
-                                <th class="">Option</th>
+                                <th class="" id = "bold">First Name</th>
+                                <th class="" id = "bold">Last Name</th>
+                                <th class="" id = "bold">Address</th>
+                                <th class="" id = "bold">Contact No</th>
+                                <th class="" id = "bold">NIC</th>
+                                <th class="" id = "bold">Email</th>
+                                <th class="" id = "bold">Registered date</th>
+                                <th class="" id = "bold">Option</th>
 
                             </tr>
+                        
                         </thead>
                         <tbody>
                             <?php

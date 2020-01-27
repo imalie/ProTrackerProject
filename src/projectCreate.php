@@ -153,7 +153,12 @@ function check_duplicate_proname($conn, $proName)
                 <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
                 <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
                 <link href="../assets/demo/demo.css" rel="stylesheet" />
+                <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
             </head>
+            <!-- Navbar -->
+            <?php include('mainHead.php') ?>
+            <!-- End Navbar -->
+
 
  <body class="">
     <div class="wrapper">
@@ -186,11 +191,30 @@ function check_duplicate_proname($conn, $proName)
             </div>
         </div>
         <div class="main-panel">
-            <?php include('mainHead.php')
-            ?>
+           
        <div class="content">
                 <div class="container-fluid">
-                    <h3><u>Project Information </u></h3>
+                <div class="col-lg-12 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                   <div class="card-header card-header-danger card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">description</i>
+                  </div>
+
+                  <h3 class="card-title"> Project Information
+                  </h3>
+                </div>
+
+            
+                <div class="card-header card-header-warning card-header-icon">
+                  
+
+
+<br>
+<br>
+
+
+
                     <form class="form-group" method="post" enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -312,8 +336,13 @@ function check_duplicate_proname($conn, $proName)
                 });
             });
         </script>
+          <footer class="footer">
+                    <!-- <div class="container-fluid">
+                        <?php include('mainFooter.php') ?>
+                    </div> -->
+        </footer>
 </body>
 </html>
 
-<?php include 'mainFooter.php'; ?>
+
 
