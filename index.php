@@ -15,8 +15,8 @@ if (isset($_POST['submit'])) {
     if (empty($_POST["userEmail"])) {
         $errorList['emailError'] = "Enter user email";
     } else {
-        // check if e-mail address is well-formed
-        if (!filter_var($_POST["userEmail"], FILTER_VALIDATE_EMAIL)) {
+        // check if e-mail address is well-formed condition wheather it is true or false
+        if (!filter_var($_POST["userEmail"], FILTER_VALIDATE_EMAIL)){
             $errorList['emailError'] = "Email is invalid";
         }
     }
@@ -35,18 +35,20 @@ if (isset($_POST['submit'])) {
         if ($dbResult && mysqli_num_rows($dbResult) == 1) {
             $row = mysqli_fetch_assoc($dbResult);
             //set the user information to session
-            if ($row['status'] === '1') {
+            if ($row['status'] === '1') { //active user=1  blocked user=0
                 $_SESSION['userID'] = $row['id'];
                 $_SESSION['userFirstName'] = $row['first_name'];
                 $_SESSION['userEmail'] = $row['email'];
                 $_SESSION['userType'] = $row['user_type'];
                 if ($row['user_img'] == "") {
-                    $_SESSION['userImage'] = "../doc/img/defaultImg.png";
+                    $_SESSION['userImage'] = "defaultImg.png";
                 } else {
-                    $_SESSION['userImage'] = "../doc/img/" . $row['user_img'];
+                    $_SESSION['userImage'] = $row['user_img'];
                 }
                 //redirect to system if user e-mali and password is valid
-                pageRedirect("src/dashboard.php");
+                if ($row['user_type'] === "customer") {
+                    pageRedirect("customer/cust_dashboard.php");
+                } else { pageRedirect("src/dashboard.php"); }
             } else {
                 $errorList['accessError'] = "User blocked";
             }

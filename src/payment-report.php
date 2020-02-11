@@ -12,6 +12,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
+    
+  
 </head>
  <!-- Navbar -->
  <?php include('mainHead.php') ?>
@@ -41,14 +44,15 @@
         <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
+                    <h4>Payment Report</h4>
                     <?php
                     include_once '../controllers/config.inc.php';
                     ?>
                     <!--<button type="button" class="btn btn-outline-secondary"><a href="./stages.php">Add Stage</a></button>-->
 
-                    <table class="table table-hover">
-                        <table class="table border">
-                            <thead>
+                    <table class="table table-hover table-striped table-responsive-sm" >
+                        <thead class="thead-dark">
+                            
                             <tr class="">
                                 <th class="">Payment ID</th>
                                 <th class="">Full Name</th>
@@ -83,7 +87,7 @@
                                     <td>'.$row['amount'].'</td>                                    
                                     <td>'.$row['release_date'].'</td>                                    
                                     <td>'.$rowUser['email'].'</td>
-                                    <td><a class="btn btn-success" target="_blank" href="payment-view.php?id='.$row['id'].'">View</a></td>
+                                    <td><a class="btn btn-outline-info"" target="_blank" href="payment-view.php?id='.$row['id'].'">View</a></td>
                                   </tr>';
                 }
             }else {

@@ -6,7 +6,6 @@ $validateError = array();
 $SubmitStatus = array();
 
 if (isset($_POST['submit'])) {
-    $defaultImagePath = "../doc/img/defaultImg.png";
     // first name validation
     if (empty($_POST['firstName'])) {
         $validateError['firstName'] = "first name is empty";
@@ -120,14 +119,14 @@ if (isset($_POST['submit'])) {
     }
     // check if any error
     if (0 === count($validateError)) {
-        $dbQuery = "INSERT INTO users(first_name,last_name,address,tel_no,nic,email,password,user_type,user_img,release_user) 
-                    VALUES ('" . $firstName . "','" . $lastName . "','" . $address . "','" . $telNo . "','" . $nic . "','" . $email . "','" . $password . "','" . $userType . "','" . $defaultImagePath . "','" . $_SESSION['userEmail'] . "');";
+        $dbQuery = "INSERT INTO users(first_name,last_name,address,tel_no,nic,email,password,user_type,release_user) 
+                    VALUES ('" . $firstName . "','" . $lastName . "','" . $address . "','" . $telNo . "','" . $nic . "','" . $email . "','" . $password . "','" . $userType . "','" . $_SESSION['userEmail'] . "');";
 
         if (mysqli_query($conn, $dbQuery)) {
             $SubmitStatus['dbStatus'] = "User Created successfully!!";
 
         } else {
-            $SubmitStatus['dbError'] = "Oops error occured when creating User";
+            $SubmitStatus['dbError'] = "Oops error occur when creating User";
         }
         //close the db connection
         mysqli_close($conn);
@@ -244,7 +243,7 @@ function check_duplicate_nic($conn, $nic)
 
 
                             // echo '<lable class="text-success">' . $SubmitStatus['dbStatus'] . '</lable>';
-
+                            //sucess message alert
                               echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
                               <strong>' . $SubmitStatus['dbStatus'] . '</strong> 
                               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -252,7 +251,7 @@ function check_duplicate_nic($conn, $nic)
                               </button>
                             </div>';
                     ?>
-
+                    //Error message alert
                     <?php
                         } else if (isset($SubmitStatus['dbError'])) {
                             echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -371,7 +370,7 @@ function check_duplicate_nic($conn, $nic)
                                     <div class="form-row col-md-12">
                                         <div class="form-check form-check-radio form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="userType" id="lineRadio_superuser" value="superuser">Super User
+                                                <input class="form-check-input" type="radio" name="userType" id="lineRadio_superuser" value="superuser">Director
                                                 <span class="circle">
                                                     <span class="check"></span>
                                                 </span>
@@ -379,7 +378,7 @@ function check_duplicate_nic($conn, $nic)
                                         </div>
                                         <div class="form-check form-check-radio form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="userType" id="inlineRadio_Supervisor" value="supervisor">Supervisor
+                                                <input class="form-check-input" type="radio" name="userType" id="inlineRadio_Supervisor" value="supervisor"> Project Supervisor
                                                 <span class="circle">
                                                     <span class="check"></span>
                                                 </span>
@@ -387,7 +386,7 @@ function check_duplicate_nic($conn, $nic)
                                         </div>
                                         <div class="form-check form-check-radio form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="userType" id="inlineRadio_superuser" value="employee"> Employee
+                                                <input class="form-check-input" type="radio" name="userType" id="inlineRadio_superuser" value="employee">Technical Officer
                                                 <span class="circle">
                                                     <span class="check"></span>
                                                 </span>

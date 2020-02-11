@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+      <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 </head>
  <!-- Navbar -->
  <?php include('mainHead.php') ?>
@@ -45,10 +46,11 @@
     </div>
     <div class="main-panel">
         <!-- Navbar -->
-        <?php include('mainHead.php') ?>
+       
         <!-- End Navbar -->
         <div class="content">
             <div class="container-fluid">
+                <h2>Project Payment Details</h2>
                 <?php
                 include_once '../controllers/config.inc.php';
                 $paymentId = $customerId = $customerName = $projectId = $projectName = $amount = $releaseDate = $releaseUser = "";
@@ -76,12 +78,84 @@
                     $releaseUser = $rowUser['email'];
                 }
                 ?>
+
+                <style>
+                    #box {
+                        background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;
+
+                    }
+                </style>
+
+
+
+                                <div class="border rounded mt-2">
+                                <table class="table border rounded">
+                                <tr>
+                              
+                                <tr>
+
+                                <td style="width :30% !important"><b>Payment ID : </b> &nbsp; 
+                                <div id = "box">
+                                       <?php echo $paymentId;?>
+                                </div>
+                                </td>
+                                 </tr>
+                                 <tr>
+                                <td> <b>Customer ID:</b> <div id = "box">
+                                <?php echo $customerId;?>
+                                </div>
+                                </td>
+
+                                <td colspan="2"> <b>Customer Name :</b>
+                                <div id = "box"> <?php echo $customerName;?>
+                                </div>
+                                </td>
+                               
+                                
+                                
+
+                                <td> Payment Date
+                                <div id = "box"><?php echo $releaseDate;?>
+                                </div>
+                                </td>
+                                </tr>
+                                <tr>
+
+                                <td> Project ID
+                                <div id = "box"><?php echo $projectId;?>
+                                </div>
+                                </td>
+
+                                <td> Project Name
+                                <div id = "box"><?php echo $projectName;?>
+                                </div>
+                                </td>
+                          
+                                <td> Amount
+                                <div id = "box">LKR <?php echo $amount;?>
+                                </td>
+
+                                <td> Release User
+                                <div id = "box"><?php echo $releaseUser;?>
+                                </td>                             
+
+                                </tr>
+
+                                </tr>
+                                </tr>
+                                </table>
+
+
+
+
+
+
                 <div class="container p-3">
                     <table class="table table-borderless">
                         <tr>
                             <td colspan="4"><a href="../print/pyament_rec.php?id=<?php echo $_GET['id'];?>" target="_blank" class="btn btn-success float-right">Print</a></td>
                         </tr>
-                        <tr>
+                 <!--        <tr>
                             <td class="w-25"><label> Payment ID<label class="form-control"><?php echo $paymentId;?></label></label></td>
                             <td class="w-25"><label> Customer ID<label class="form-control"><?php echo $customerId;?></label></label></td>
                             <td class="w-50"><label> Customer Name<label class="form-control"><?php echo $customerName;?></label></label></td>
@@ -94,11 +168,14 @@
                         </tr>
                         <tr>
                             <td class="w-25"><label>Release User<label class="form-control"><?php echo $releaseUser;?></label></label></td>
-                        </tr>
+                        </tr> -->
                     </table>
                 </div>
             </div>
         </div>
 </body>
+
+ <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 
 <?php include 'mainFooter.php'; ?>

@@ -1,6 +1,5 @@
 <?php
 session_start();
-include 'mainHead.php';
 include_once '../controllers/config.inc.php';
 
 $validateError = array();
@@ -73,8 +72,9 @@ if (isset($_POST['submit'])) {
             } else {
                 $validateError['planDocError4'] = "plan file upload error";
             }
+            $planDocName = $fileNewName;
         }
-        $planDocName = $fileNewName;
+       
     } else {
         $validateError['planDocError1'] = "Select plan document";
     }
@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
     if (!($_FILES['boq_doc']['name'] == null)) {
         $fileBoqExt = explode('.', $_FILES['boq_doc']['name']);
         $fileBoqActualExt = strtolower(end($fileBoqExt));
-        $boqAllowed = array('xlsm');
+        $boqAllowed = array('xlsm','xlsx');
         if (!(in_array($fileBoqActualExt, $boqAllowed))) {
             $validateError['boqDocError1'] = "Can not upload format of this file";
         }
@@ -100,8 +100,9 @@ if (isset($_POST['submit'])) {
             } else {
                 $validateError['boqDocError4'] = "boq file upload error";
             }
+            $boqDocName = $fileBoqNewName;
         }
-        $boqDocName = $fileBoqNewName;
+       
     } else {
         $validateError['boqDocError1'] = "Select boq document";
     }
@@ -195,25 +196,11 @@ function check_duplicate_proname($conn, $proName)
        <div class="content">
                 <div class="container-fluid">
                 <div class="col-lg-12 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                   <div class="card-header card-header-danger card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">description</i>
-                  </div>
+          
 
-                  <h3 class="card-title"> Project Information
+                  <h3 class=""> Project Information
                   </h3>
-                </div>
-
             
-                <div class="card-header card-header-warning card-header-icon">
-                  
-
-
-<br>
-<br>
-
-
 
                     <form class="form-group" method="post" enctype="multipart/form-data">
                     <div class="form-row">
@@ -266,38 +253,27 @@ function check_duplicate_proname($conn, $proName)
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" >
                             <label>Plan Document:</label><?php if (isset($validateError['planDocError1'])) {
                                                                 echo '<label class="text-danger">  ' . $validateError['planDocError1'] . '</label>';
                                                             } ?>
-                            <div class="custom-file">
-                                <input type="file" name="plan_doc">
-<!--                                <label for="file-upload" class="file btn btn-sm btn-primary">-->
-<!--                                        Choose File-->
-<!--                                    </label>-->
+                            <div class="custom-file" style="color: black !important">
+                                <input type="file" name="plan_doc"  accept="application/pdf">
+
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label>BOQ Document:</label><?php if (isset($validateError['boqDocError1'])) {
                                                             echo '<label class="text-danger">  ' . $validateError['boqDocError1'] . '</label>';
                                                         } ?>
-                            <div class="custom-file">
-                                <input type="file" name="boq_doc">
-<!--                                <label for="file-upload" class="file btn btn-sm btn-primary">-->
-<!--                                         Choose File-->
-<!--                                    </label>-->
+                            <div class="custom-file" style="color: black !important">
+                                <input type="file" name="boq_doc" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"/>
+
                             </div>
                         </div>
-                       
-                        
-
                     </div>
-                    <div class="form-row">
-                        <label>Project State:</label>
-                        
-                    </div>
-                    <div class="form-row">
-                        <button type="submit" name="submit" value="submit" class="btn btn-success">Create Project</button>
+                    <div class="form-row float-right">
+                        <button type="submit" name="submit" value="submit" class="btn btn-success ">Create Project</button>
                     </div>
 
                     <?php
@@ -309,6 +285,7 @@ function check_duplicate_proname($conn, $proName)
                     ?>
             </form>
         </div>
+    </div>
         <script>
             $(document).ready(function() {
                 $('#pro_owner').autocomplete({
@@ -343,6 +320,9 @@ function check_duplicate_proname($conn, $proName)
                         <?php include('mainFooter.php') ?>
                     </div> -->
         </footer>
+
+        <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 </body>
 </html>
 

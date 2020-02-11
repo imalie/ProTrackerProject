@@ -9,6 +9,7 @@ $(document).ready(function () {
     // =============================================== js model from start ============================================================
     $('#add_items').click(function () {
         validate_status = true;
+        var is_item = false;
         var pro_id = $('#pro_id').val();
         var pro_name = $('#pro_name').val();
         var stage_name = $('#stage_name').val();
@@ -17,21 +18,21 @@ $(document).ready(function () {
         var item_id = $('#item_id').val();
         var item_name = $('#item_name').val();
         var uom = $('#uom').val();
-        var unit_cost = $('#unit_cost').val();
-        var qty = $('#qty').val();
+        var unit_cost = parseInt($('#unit_cost').val());
+        var qty = parseInt($('#qty').val());
+        console.log(qty);
         var total_amount = unit_cost * qty;
 
-        if (pro_name === ""){ validate_status = false; addClassWarning("pro_name"); } else {removeClassWarning("pro_name")}
-        if (stage_name === ""){ validate_status = false; addClassWarning("stage_name"); } else {removeClassWarning("pro_name")}
-        if (desc === ""){ validate_status = false; addClassWarning("desc"); } else {removeClassWarning("desc")}
+        if (pro_name === ""){ validate_status = false; addClassWarning("pro_name"); } else { removeClassWarning("pro_name")}
+        if (stage_name === ""){ validate_status = false; addClassWarning("stage_name"); } else { removeClassWarning("pro_name")}
+        if (desc === ""){ validate_status = false; addClassWarning("desc"); } else { removeClassWarning("desc")}
 
-        if (item_name === ""){ validate_status = false; addClassWarning("item_name"); } else {removeClassWarning("item_name")}
-        if (unit_cost === ""){ validate_status = false; addClassWarning("unit_cost"); } else {removeClassWarning("unit_cost")}
-        if (qty === ""){ validate_status = false; addClassWarning("qty"); } else {removeClassWarning("qty")}
+        if (item_name === ""){ validate_status = false; addClassWarning("item_name"); } else { removeClassWarning("item_name")}
+        if (isNaN(unit_cost)){ validate_status = false; addClassWarning("unit_cost"); } else { removeClassWarning("unit_cost")}
+        if (isNaN(qty)){ validate_status = false; addClassWarning("qty"); } else { removeClassWarning("qty")}
 
         if (true === validate_status) {
 
-            item_row_id++;
             status = false;
             approx_total += total_amount;
 
@@ -58,29 +59,47 @@ $(document).ready(function () {
                 if (data_set[y]['type'].includes('master')) {
                     data_set[y]['approx_budget'] = approx_total;
                 }
+                if (data_set[y]['type'].includes('item')) {
+                    if (data_set[y]['item_id'] === item_id) {
+                        data_set[y]['qty'] += qty;
+                        data_set[y]['total_amount'] += total_amount;
+                        is_item = true;
+
+                        for (var r = 1; r <= item_row_id; r++) {
+                            if ($('#item_id_' + r + '').val() === item_id) {
+                                $('#qty_' + r + '').val(data_set[y]['qty']);
+                                $('#total_amount_' + r + '').val(data_set[y]['total_amount']);
+                            }
+                        }
+                    }
+                }
             }
 
-            var sub = {
-                'type': 'item',
-                'item_id': item_id,
-                'unit_cost': unit_cost,
-                'qty': qty,
-                'total_amount': total_amount
-            };
-            data_set.push(sub);
+            if (is_item === false) {
+                item_row_id++;
+                var sub = {
+                    'type': 'item',
+                    'item_id': item_id,
+                    'unit_cost': unit_cost,
+                    'qty': qty,
+                    'total_amount': total_amount
+                };
+                data_set.push(sub);
+                is_item = false;
+
+                $('#dynamic_item_table').append('<tr id="item_row_' + item_row_id + '">' +
+                    '<td><input type="text" id="item_id_' + item_row_id + '" class="form-control" value="' + item_id + '" disabled></td>' +
+                    '<td><input type="text" id="item_name_' + item_row_id + '" class="form-control" value="' + item_name + '" disabled></td>' +
+                    '<td><input type="text" id="uom_' + item_row_id + '" class="form-control" value="' + uom + '" disabled></td>' +
+                    '<td><input type="text" id="unit_cost_' + item_row_id + '" class="form-control" value="' + unit_cost + '" disabled></td>' +
+                    '<td><input type="text" id="qty_' + item_row_id + '" class="form-control" value="' + qty + '" disabled></td>' +
+                    '<td><input type="text" id="total_amount_' + item_row_id + '" class="form-control" value="' + total_amount + '" disabled></td>' +
+                    '<td><input type="button" id="' + item_row_id + '" class="btn btn-outline-danger btn-item-remove" value="-"></td>' +
+                    '</tr>');
+            }
 
             console.log("Add dataset +++ ");
             console.log(data_set);
-
-            $('#dynamic_item_table').append('<tr id="item_row_' + item_row_id + '">' +
-                '<td><input type="text" id="item_id_' + item_row_id + '" class="form-control" value="' + item_id + '" disabled></td>' +
-                '<td><input type="text" id="item_name_' + item_row_id + '" class="form-control" value="' + item_name + '" disabled></td>' +
-                '<td><input type="text" id="uom_' + item_row_id + '" class="form-control" value="' + uom + '" disabled></td>' +
-                '<td><input type="text" id="unit_cost_' + item_row_id + '" class="form-control" value="' + unit_cost + '" disabled></td>' +
-                '<td><input type="text" id="qty_' + item_row_id + '" class="form-control" value="' + qty + '" disabled></td>' +
-                '<td><input type="text" id="total_amount_' + item_row_id + '" class="form-control" value="' + total_amount + '" disabled></td>' +
-                '<td><input type="button" id="' + item_row_id + '" class="btn btn-outline-danger btn-item-remove" value="-"></td>' +
-                '</tr>');
 
             $('#approx_budget').val(approx_total);
 
@@ -107,6 +126,7 @@ $(document).ready(function () {
         for (var y = 0; y < data_set.length; y++) {
             if (data_set[y]['type'].includes('master')) {
                 data_set[y]['approx_budget'] = approx_total;
+                $('#approx_budget').val(approx_total);
             }
         }
         console.log("Remove dataset --- ");

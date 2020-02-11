@@ -122,7 +122,7 @@ if (isset($_POST['submit'])) {
         $dbQuery = "INSERT INTO customer(first_name,last_name,address,tel_no,nic,occupation,email,password,user_type,release_user) 
                     VALUES ('".$firstName."','".$lastName."','".$address."','".$telNo."','".$nic."','".$occupation."','".$email."','".$password."','customer','".$_SESSION['userID']."');";
         if (mysqli_query($conn, $dbQuery)) {
-            $SubmitStatus['dbStatus'] = "Submit success";
+            $SubmitStatus['dbStatus'] = "Customer created successfully";
         } else {
             $SubmitStatus['dbError'] = "Update error to database";
         }
@@ -210,7 +210,7 @@ function check_duplicate_nic($conn, $nic)
                    
             <div class="col-lg-12 col-md-6 col-sm-6">
               <div class="card card-stats">
-                   <div class="card-header card-header-warning card-header-icon">
+                   <div class="card-header card-header-info card-header-icon">
                   <div class="card-icon">
                     <i class="material-icons">person</i>
                   </div>
@@ -360,6 +360,13 @@ function check_duplicate_nic($conn, $nic)
 
                         <div class="col-md-12">
                             <button type="submit" name="submit" value="submit" class="btn btn-success">Create Customer</button>
+                            <?php
+                            if (isset($SubmitStatus['dbStatus'])) {
+                                echo '<div class="">
+                                <span class="text-success"> Customer created successfully</span>
+                             </div>';
+                            }
+                            ?>
                         </div>
                     </div>
   <!-- 

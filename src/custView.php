@@ -165,9 +165,11 @@ function updateImg($conn, $imageNewName)
     if (mysqli_query($conn, $dbImgUpdateQuery)) {
         global $imgUploadStatus;
         $imgUploadStatus['dbStatus'] = "Upload success to database";
+        $_SESSION['userImage'] = $imageNewName;
     } else {
         global $imgUploadedError;
         $imgUploadedError['dbError'] = "Upload error image to database";
+
     }
 }
 // define update database function for user info
@@ -220,11 +222,12 @@ function check_duplicate_nic($conn, $nic)
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
-
     <style>
         .profile-img {
             text-align: center;
@@ -291,7 +294,7 @@ function check_duplicate_nic($conn, $nic)
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 <div class="profile-img">
-                                    <img id="blah" src=<?php echo $_SESSION['userImage']; ?> alt="..." width="70%" />
+                                    <img id="blah" src="<?php echo $_SESSION['userImage']; ?>" alt="..." width="70%" />
                                     <label for="file-upload" class="file btn btn-lg btn-primary">
                                         Change Photo
                                     </label>

@@ -13,10 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 </head>
+<!-- Navbar -->
+            <?php include('mainHead.php') ?>
+            <!-- End Navbar -->
 <body class="">
     <div class="wrapper">
-        <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
+        <div class="sidebar" data-color="green" style="margin-top: 80px;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item active  ">
@@ -26,7 +30,7 @@
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="./stock-adjustment.php">
+                        <a class="nav-link" href="">
                             <i class="material-icons">
                                 dns
                             </i>
@@ -38,9 +42,7 @@
             </div>
         </div>
         <div class="main-panel">
-            <!-- Navbar -->
-            <?php include('mainHead.php') ?>
-            <!-- End Navbar -->
+            
             <div class="content">
                 <div class="container-fluid">
                 <h2>Stock Adjustment</h2> 
@@ -54,7 +56,7 @@
                     while ($rowStage = mysqli_fetch_assoc($resultStage)) {
                         echo '<div class="border rounded mt-2">
                                         <table class="table table-borderless">
-                                        <tr><td>Stage Name: ' . $rowStage['stage_name'] . '</td></tr>';
+                                        <tr><td><b><font  style = "padding-bottom:15px;">Stage Name: </font></b> &nbsp; <div style = "background-color:#d5f1f5 ;border-radius:10px; padding-top:8px; padding-bottom:8px; padding-left:10px;"> ' . $rowStage['stage_name'] . '</div></td></tr>';
 
                         $dbQueryStagesItem = "SELECT stages_item.id,stages_item.item_id,product.product_name,stages_item.qty,stages_item.item_cost FROM stages_item JOIN product ON stages_item.item_id = product.id WHERE stages_item.stage_id = '" . $rowStage['stage_id'] . "';";
                         if ($resultStageItem = mysqli_query($conn, $dbQueryStagesItem)) {
@@ -78,7 +80,7 @@
                                                     </tr>
                                                     <tr>
                                                     <td class="d-none"><input type="number" id="proid_' . $itemCount . '" value="' . $proId . '"></td>                                       
-                                                    <td class="d-none"><input type="number" id="stage_item_' . $itemCount . '" value="' . $rowStageItem['id'] . '"></td>                                       
+                                                    <td class="d-none"><input type="number" id="stage_id_' . $itemCount . '" value="' . $rowStage['stage_id'] . '"></td>                                       
                                                     <td><input type="number" id="item_id_' . $itemCount . '" value="' . $rowStageItem['item_id'] . '" class="form-control" disabled></td>
                                                     <td><input type="text" value="' . $rowStageItem['product_name'] . '" class="form-control" disabled></td>
                                                     <td><input type="number" id="item_cost_' . $itemCount . '" value="' . $rowStageItem['item_cost'] . '" class="form-control" disabled></td>
@@ -126,7 +128,7 @@
                                 var set = {
                                     'pro_id': $('#proid_' + i + '').val(),
                                     'item_id': $('#item_id_' + i + '').val(),
-                                    'stage_id': $('#stage_item_' + i + '').val(),
+                                    'stage_id': $('#stage_id_' + i + '').val(),
                                     'unit_cost': $('#item_cost_' + i + '').val(),
                                     'ads_qty': ads_qty_tmp
                                 };
@@ -146,6 +148,7 @@
                                 var ttt = JSON.parse(data);
                                 if (ttt['state'].includes("OK")) {
                                     alert('update success');
+                                    location.reload();
                                 } else {
                                     alert('error');
                                 }
@@ -159,4 +162,9 @@
                 }
             });
         </script>
+
+        <br>
+        <br>
+         <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
         <?php include 'mainFooter.php'; ?>

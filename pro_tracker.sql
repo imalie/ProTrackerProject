@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 15, 2020 at 05:28 AM
+-- Generation Time: Feb 01, 2020 at 05:59 AM
 -- Server version: 5.6.13
 -- PHP Version: 5.4.17
 
@@ -37,17 +37,16 @@ CREATE TABLE IF NOT EXISTS `boq_doc` (
   PRIMARY KEY (`id`),
   KEY `pro_id` (`pro_id`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `boq_doc`
 --
 
 INSERT INTO `boq_doc` (`id`, `pro_id`, `doc_name`, `release_user`, `release_date`) VALUES
-(1, 2, '5e1c52c70ae9d0.52443725.pdf', 1, '2020-01-13 16:51:43'),
-(2, 2, '5e1c5be052f776.14525301.pdf', 1, '2020-01-13 17:30:32'),
-(3, 1, '5e1dcada7097a6.49573968.pdf', 1, '2020-01-14 19:36:18'),
-(4, 1, '5e1dcb5e3098e9.00693831.pdf', 1, '2020-01-14 19:38:30');
+(1, 1, '5e3444e51b9225.10625685.xlsm', 1, '2020-01-31 20:46:53'),
+(2, 2, '5e34f788de1911.19383038.xlsm', 1, '2020-02-01 09:29:05'),
+(3, 3, '5e34fadb7630a1.85292420.xlsx', 1, '2020-02-01 09:43:15');
 
 -- --------------------------------------------------------
 
@@ -72,14 +71,15 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `user_registered` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `customer`
 --
 
 INSERT INTO `customer` (`id`, `first_name`, `last_name`, `address`, `tel_no`, `nic`, `occupation`, `email`, `password`, `user_type`, `user_img`, `release_user`, `status`, `user_registered`) VALUES
-(4, 'nimal', 'asdas', 'asdasd', '+94114578456', '123456789V', 'sadas', 'democust@gmail.com', '202cb962ac59075b964b07152d234b70', 'customer', NULL, 1, 1, '2020-01-07 22:03:25');
+(1, 'John', 'Wick', '1542/N Address', '+94771223123', '147852369V', 'Bmae', 'john@gmail.com', '202cb962ac59075b964b07152d234b70', 'customer', NULL, 1, 1, '2020-01-31 20:38:54'),
+(2, 'Mary', 'Mary', '123/ Address', '+94778956741', '145789654V', 'Job', 'mary@gmail.com', '202cb962ac59075b964b07152d234b70', 'customer', NULL, 1, 1, '2020-02-01 09:41:58');
 
 -- --------------------------------------------------------
 
@@ -98,15 +98,16 @@ CREATE TABLE IF NOT EXISTS `payment` (
   KEY `customer_id` (`customer_id`),
   KEY `project_id` (`project_id`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `payment`
 --
 
 INSERT INTO `payment` (`id`, `customer_id`, `project_id`, `amount`, `release_user`, `release_date`) VALUES
-(1, 4, 1, '25000.00', 1, '2020-01-09 09:39:30'),
-(2, 4, 2, '40000.00', 1, '2020-01-14 20:30:29');
+(1, 1, 1, '50000.00', 1, '2020-01-31 22:29:43'),
+(2, 1, 2, '5000.00', 1, '2020-02-01 09:32:04'),
+(3, 2, 3, '75000.00', 1, '2020-02-01 09:48:31');
 
 -- --------------------------------------------------------
 
@@ -126,15 +127,14 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`id`),
   KEY `uom_code` (`uom_code`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`id`, `product_name`, `product_desc`, `uom_code`, `unit_cost`, `product_type`, `release_user`, `release_date`) VALUES
-(2, 'AAA', 'sdasd', 'kg', '50.00', 'goods', 1, '2020-01-07 23:36:53'),
-(3, 'BBB', 'sadasd', 'g', '8000.00', 'service', 1, '2020-01-08 20:54:54');
+(1, 'AAA', 'sadasd', 'KG', '5000.00', 'goods', 1, '2020-01-31 22:16:21');
 
 -- --------------------------------------------------------
 
@@ -150,24 +150,28 @@ CREATE TABLE IF NOT EXISTS `project` (
   `approx_budget` decimal(11,2) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
+  `pro_act_start_date` datetime DEFAULT NULL,
+  `pro_act_end_date` datetime DEFAULT NULL,
   `plan_doc` varchar(100) NOT NULL,
   `in_paid_state` tinyint(1) NOT NULL DEFAULT '0',
   `full_paid_state` tinyint(1) NOT NULL DEFAULT '0',
   `status` varchar(15) DEFAULT 'notstart',
+  `is_stages` tinyint(1) NOT NULL DEFAULT '0',
   `release_user` int(10) unsigned NOT NULL,
   `release_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `pro_owner_id` (`pro_owner_id`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `project`
 --
 
-INSERT INTO `project` (`id`, `pro_owner_id`, `pro_name`, `address`, `approx_budget`, `start_date`, `end_date`, `plan_doc`, `in_paid_state`, `full_paid_state`, `status`, `release_user`, `release_date`) VALUES
-(1, 4, 'NOVA', 'sdas', '50000.00', '2020-01-07', '2020-01-31', '5e1c5c5e606f87.62423498.pdf', 1, 0, 'inprogress', 1, '2020-01-07 23:41:48'),
-(2, 4, 'sdsd', 'sdsad', '21212.00', '2020-01-13', '2020-01-13', '5e1c52c70ad321.70009828.pdf', 1, 0, 'notstart', 1, '2020-01-13 16:51:43');
+INSERT INTO `project` (`id`, `pro_owner_id`, `pro_name`, `address`, `approx_budget`, `start_date`, `end_date`, `pro_act_start_date`, `pro_act_end_date`, `plan_doc`, `in_paid_state`, `full_paid_state`, `status`, `is_stages`, `release_user`, `release_date`) VALUES
+(1, 1, 'Project/001', '231/B Address', '100000.00', '2020-01-31', '2020-02-29', '2020-02-01 08:43:08', '2020-02-01 08:47:13', '5e3444e51b41b0.05461231.pdf', 1, 0, 'complete', 1, 1, '2020-01-31 20:46:53'),
+(2, 1, 'Project/002', '7845/B Address', '50000.00', '2020-02-01', '2020-02-29', '2020-02-01 09:33:26', '2020-02-01 09:37:42', '5e34f788de0275.25057728.pdf', 1, 0, 'complete', 1, 1, '2020-02-01 09:29:04'),
+(3, 2, 'Project/003', '784/B Address', '200000.00', '2020-02-01', '2020-02-29', '2020-02-01 09:48:39', NULL, '5e34fadb760140.82471506.pdf', 1, 0, 'inprogress', 1, 1, '2020-02-01 09:43:15');
 
 -- --------------------------------------------------------
 
@@ -185,15 +189,67 @@ CREATE TABLE IF NOT EXISTS `project_remark` (
   PRIMARY KEY (`id`),
   KEY `pro_id` (`pro_id`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `project_remark`
 --
 
 INSERT INTO `project_remark` (`id`, `pro_id`, `remark`, `customer_visible`, `release_user`, `release_date`) VALUES
-(1, 1, 'sadasdasd', 1, 1, '2020-01-13 20:32:41'),
-(2, 1, 'adsadasd', 0, 1, '2020-01-14 10:58:48');
+(1, 1, 'Customer Not Visible', 0, 1, '2020-01-31 22:33:56'),
+(2, 1, 'Customer Visible', 1, 1, '2020-01-31 22:36:20'),
+(3, 1, 'pro_id', 0, 1, '2020-01-31 22:40:13'),
+(4, 1, 'Project pro', 0, 1, '2020-02-01 09:34:30'),
+(5, 2, 'Pro002', 1, 1, '2020-02-01 09:37:09'),
+(6, 3, 'Now Start', 1, 1, '2020-02-01 09:47:47'),
+(7, 1, 'cussda 1254', 1, 1, '2020-02-01 10:58:07'),
+(8, 1, 'dasdas sdasdasd', 1, 1, '2020-02-01 10:58:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pro_stock_in`
+--
+
+CREATE TABLE IF NOT EXISTS `pro_stock_in` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pro_id` int(10) unsigned NOT NULL,
+  `stage_id` int(10) unsigned NOT NULL,
+  `item_id` int(10) unsigned NOT NULL,
+  `item_cost` decimal(11,2) NOT NULL,
+  `qty` decimal(11,2) NOT NULL,
+  `total_amount` decimal(11,2) NOT NULL,
+  `release_user` int(10) unsigned NOT NULL,
+  `release_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `pro_id` (`pro_id`),
+  KEY `stage_id` (`stage_id`),
+  KEY `item_id` (`item_id`),
+  KEY `release_user` (`release_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pro_stock_out`
+--
+
+CREATE TABLE IF NOT EXISTS `pro_stock_out` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pro_id` int(10) unsigned NOT NULL,
+  `stage_id` int(10) unsigned NOT NULL,
+  `item_id` int(10) unsigned NOT NULL,
+  `item_cost` decimal(11,2) NOT NULL,
+  `qty` decimal(11,2) NOT NULL,
+  `total_amount` decimal(11,2) NOT NULL,
+  `release_user` int(10) unsigned NOT NULL,
+  `release_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `pro_id` (`pro_id`),
+  KEY `stage_id` (`stage_id`),
+  KEY `item_id` (`item_id`),
+  KEY `release_user` (`release_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -209,21 +265,27 @@ CREATE TABLE IF NOT EXISTS `stages` (
   `approx_budget` decimal(11,2) NOT NULL,
   `outstanding` decimal(11,2) NOT NULL,
   `stages_status` varchar(15) DEFAULT 'notstart',
+  `stage_act_start_date` datetime DEFAULT NULL,
+  `stage_act_end_date` datetime DEFAULT NULL,
   `release_user` int(10) unsigned NOT NULL,
   `release_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`stage_id`),
   KEY `pro_id` (`pro_id`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `stages`
 --
 
-INSERT INTO `stages` (`stage_id`, `pro_id`, `stage_name`, `stage_desc`, `approx_budget`, `outstanding`, `stages_status`, `release_user`, `release_date`) VALUES
-(1, 1, 'NOVA/STAGE/01', 'stages description', '50000.00', '25000.00', 'inprogress', 1, '2020-01-09 09:23:00'),
-(2, 2, 'dsadad', 'sdasda', '50000.00', '10000.00', 'notstart', 1, '2020-01-14 20:27:53'),
-(3, 2, 'sdsawww', 'sasdasd', '8000.00', '8000.00', 'notstart', 1, '2020-01-14 20:28:10');
+INSERT INTO `stages` (`stage_id`, `pro_id`, `stage_name`, `stage_desc`, `approx_budget`, `outstanding`, `stages_status`, `stage_act_start_date`, `stage_act_end_date`, `release_user`, `release_date`) VALUES
+(1, 1, 'Project/001/Stage/001', 'sdadasd', '50000.00', '0.00', 'complete', '2020-02-01 08:44:12', '2020-02-01 08:47:13', 1, '2020-01-31 22:18:47'),
+(2, 1, 'Project/001/Stage/002', 'Description', '50000.00', '50000.00', 'complete', '2020-02-01 08:46:56', '2020-02-01 08:47:13', 1, '2020-01-31 22:23:41'),
+(3, 2, 'Project/002/Stage/001', 'Address', '25000.00', '20000.00', 'complete', '2020-02-01 09:34:08', '2020-02-01 09:37:42', 1, '2020-02-01 09:30:48'),
+(4, 3, 'Project/003/Stage/001', 'Address', '50000.00', '0.00', 'complete', '2020-02-01 09:48:48', '2020-02-01 09:51:30', 1, '2020-02-01 09:44:10'),
+(5, 3, 'Project/003/Stage/002', 'Address', '50000.00', '25000.00', 'complete', '2020-02-01 09:50:42', '2020-02-01 09:51:30', 1, '2020-02-01 09:44:42'),
+(6, 3, 'Project/003/Stage/003', 'Address', '50000.00', '50000.00', 'notstart', NULL, NULL, 1, '2020-02-01 09:46:08'),
+(7, 3, 'Project/003/Stage/004', 'Address', '50000.00', '50000.00', 'notstart', NULL, NULL, 1, '2020-02-01 09:46:36');
 
 -- --------------------------------------------------------
 
@@ -242,15 +304,17 @@ CREATE TABLE IF NOT EXISTS `stages_img` (
   KEY `stages_id` (`stages_id`),
   KEY `release_user` (`release_user`),
   KEY `pro_id` (`pro_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `stages_img`
 --
 
 INSERT INTO `stages_img` (`id`, `pro_id`, `stages_id`, `img`, `release_user`, `release_date`) VALUES
-(2, 1, 1, '5e18674001c3e1.03931240.jpg', 1, '2020-01-14 00:10:50'),
-(3, 1, 1, '5e1d66681a42e2.52634637.jpg', 1, '2020-01-14 12:27:44');
+(1, 2, 3, '5e34f9acb06ab9.72079207.png', 1, '2020-02-01 09:38:12'),
+(2, 3, 7, '5e34fc6c049097.38733559.png', 1, '2020-02-01 09:49:56'),
+(3, 3, 4, '5e34fc79b64af2.03837092.png', 1, '2020-02-01 09:50:09'),
+(4, 3, 4, '5e34fc8a6fead7.56944213.png', 1, '2020-02-01 09:50:26');
 
 -- --------------------------------------------------------
 
@@ -264,7 +328,6 @@ CREATE TABLE IF NOT EXISTS `stages_item` (
   `item_id` int(10) unsigned NOT NULL,
   `item_cost` decimal(11,2) NOT NULL,
   `qty` decimal(11,2) NOT NULL,
-  `available_qty` decimal(11,2) NOT NULL DEFAULT '0.00',
   `total_amount` decimal(11,2) NOT NULL,
   `release_user` int(10) unsigned NOT NULL,
   `release_date` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -272,16 +335,19 @@ CREATE TABLE IF NOT EXISTS `stages_item` (
   KEY `stage_id` (`stage_id`),
   KEY `item_id` (`item_id`),
   KEY `release_user` (`release_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `stages_item`
 --
 
-INSERT INTO `stages_item` (`id`, `stage_id`, `item_id`, `item_cost`, `qty`, `available_qty`, `total_amount`, `release_user`, `release_date`) VALUES
-(1, 1, 2, '50.00', '1000.00', '1000.00', '50000.00', 1, '2020-01-09 09:23:01'),
-(2, 2, 2, '50.00', '1000.00', '0.00', '50000.00', 1, '2020-01-14 20:27:53'),
-(3, 3, 3, '8000.00', '1.00', '0.00', '8000.00', 1, '2020-01-14 20:28:11');
+INSERT INTO `stages_item` (`id`, `stage_id`, `item_id`, `item_cost`, `qty`, `total_amount`, `release_user`, `release_date`) VALUES
+(1, 1, 1, '5000.00', '10.00', '50000.00', 1, '2020-01-31 22:18:47'),
+(2, 2, 1, '5000.00', '10.00', '50000.00', 1, '2020-01-31 22:23:42'),
+(3, 3, 1, '5000.00', '5.00', '25000.00', 1, '2020-02-01 09:30:48'),
+(4, 4, 1, '5000.00', '10.00', '50000.00', 1, '2020-02-01 09:44:10'),
+(5, 6, 1, '5000.00', '10.00', '50000.00', 1, '2020-02-01 09:46:09'),
+(6, 7, 1, '5000.00', '10.00', '50000.00', 1, '2020-02-01 09:46:36');
 
 -- --------------------------------------------------------
 
@@ -304,8 +370,7 @@ CREATE TABLE IF NOT EXISTS `uom` (
 --
 
 INSERT INTO `uom` (`uom_code`, `uom_desc`, `allow_decimal`, `release_user`, `release_date`) VALUES
-('g', 'dfsdfdsf', 1, 1, '2020-01-08 20:47:53'),
-('kg', 'asdasdas', 1, 1, '2020-01-07 23:28:31');
+('KG', 'dasdasd', 1, 1, '2020-01-31 22:12:40');
 
 -- --------------------------------------------------------
 
@@ -328,16 +393,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `user_registered` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `address`, `tel_no`, `nic`, `email`, `password`, `user_type`, `user_img`, `release_user`, `status`, `user_registered`) VALUES
-(1, 'admin', 'admin', '1874/B Sri pura', '+94778956123', '789456123V', 'admin@pro.com', '202cb962ac59075b964b07152d234b70', 'administrator', NULL, 'admin@pro.com', 1, '2020-01-07 20:37:46'),
-(2, 'demo', 'user', '1223/B address here', '+94771223000', '123456789V', 'demouser@gmail.com', '202cb962ac59075b964b07152d234b70', 'employee', NULL, 'admin@pro.com', 0, '2020-01-07 20:45:07'),
-(3, 'demo', 'girl', '343/M address here', '+94778212000', '123456789V', 'demo@mail.com', '202cb962ac59075b964b07152d234b70', 'superuser', NULL, 'admin@pro.com', 1, '2020-01-07 20:49:02');
+(1, 'admin', 'admin', '1874/B Sri pura', '+94778956123', '789456123V', 'admin@pro.com', '202cb962ac59075b964b07152d234b70', 'administrator', NULL, 'admin@pro.com', 1, '2020-01-31 20:34:06');
 
 --
 -- Constraints for dumped tables
@@ -384,6 +447,24 @@ ALTER TABLE `project`
 ALTER TABLE `project_remark`
   ADD CONSTRAINT `project_remark_ibfk_1` FOREIGN KEY (`pro_id`) REFERENCES `project` (`id`),
   ADD CONSTRAINT `project_remark_ibfk_2` FOREIGN KEY (`release_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `pro_stock_in`
+--
+ALTER TABLE `pro_stock_in`
+  ADD CONSTRAINT `pro_stock_in_ibfk_1` FOREIGN KEY (`pro_id`) REFERENCES `project` (`id`),
+  ADD CONSTRAINT `pro_stock_in_ibfk_2` FOREIGN KEY (`stage_id`) REFERENCES `stages` (`stage_id`),
+  ADD CONSTRAINT `pro_stock_in_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `product` (`id`),
+  ADD CONSTRAINT `pro_stock_in_ibfk_4` FOREIGN KEY (`release_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `pro_stock_out`
+--
+ALTER TABLE `pro_stock_out`
+  ADD CONSTRAINT `pro_stock_out_ibfk_1` FOREIGN KEY (`pro_id`) REFERENCES `project` (`id`),
+  ADD CONSTRAINT `pro_stock_out_ibfk_2` FOREIGN KEY (`stage_id`) REFERENCES `stages` (`stage_id`),
+  ADD CONSTRAINT `pro_stock_out_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `product` (`id`),
+  ADD CONSTRAINT `pro_stock_out_ibfk_4` FOREIGN KEY (`release_user`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `stages`

@@ -13,7 +13,9 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+         <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 </head>
+  <?php include('mainHead.php') ?>
 <body class="">
     <div class="wrapper">
         <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
@@ -60,10 +62,11 @@
         </div>
         <div class="main-panel">
             <!-- Navbar -->
-            <?php include('mainHead.php') ?>
+          
             <!-- End Navbar -->
             <div class="content">
-                <div class="container-fluid">
+                <div class="container-fluid" >
+                    <h2>List Of Stage View</h2>
                     <?php
                     include_once '../controllers/config.inc.php';
                     ?>
@@ -75,10 +78,25 @@
                 if ($resultStage = mysqli_query($conn, $dbQueryStages)){
                     if (mysqli_num_rows($resultStage) > 0){
                         while ($rowStage = mysqli_fetch_assoc($resultStage)){
+
+
+
                             echo '<div class="border rounded mt-2">
-                                <table class="table table-borderless">
-                                <tr><td>Stage Name: '.$rowStage['stage_name'].'</td><td>Aprox Budget: '.$rowStage['approx_budget'].'</td></tr>
-                                <tr><td colspan="2">'.$rowStage['stage_desc'].'</td></tr>';
+                                <table class="table border rounded">
+                                <tr>
+                              
+                                <tr><td><b>Stage Name: </b> &nbsp; <div style = "background-color:#d5f1f5 ;border-radius:10px; padding-top:8px; padding-bottom:8px; padding-left:10px;">'
+
+
+
+
+
+                                .$rowStage['stage_name'].'</div></td>
+
+                                <td> <b>Approximate budget</b> <div style = "background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;">'.$rowStage['approx_budget'].'</div></td></tr>
+
+
+                                <tr><td colspan="2"> <b>Description:</b><div style = "background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;">'.$rowStage['stage_desc'].'</div></td></tr>';
 
                             $dbQueryStagesItem = "SELECT stages_item.item_id, product.product_name, stages_item.item_cost, stages_item.qty, stages_item.total_amount FROM stages_item JOIN product ON stages_item.item_id = product.id WHERE stages_item.stage_id = '".$rowStage['stage_id']."';";
                             if ($resultStageItem = mysqli_query($conn, $dbQueryStagesItem)){
@@ -88,8 +106,16 @@
                                         echo '</table><div class="border rounded">
                                             <table class="table table-borderless" id="item_table">
                                             <tr>
-                                            <td>'.$rowStageItem['item_id'].'</td><td>'.$rowStageItem['product_name'].'</td><td>'.$rowStageItem['item_cost'].'</td>
-                                            <td>'.$rowStageItem['qty'].'</td><td>'.$rowStageItem['total_amount'].'</td>
+                                            </tr>
+                                            <tr>
+                                            <td><b>Material Id:</b><div style = "background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;">'.$rowStageItem['item_id'].'</div></td>
+
+                                            <td><b>Material Name:</b><div style = "background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;">'.$rowStageItem['product_name'].'</div></td>
+                                            <td><b>Approximate Budget:</b><div style = "background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;">'.$rowStageItem['item_cost'].'</div></td>
+
+                                            <td><b>Quantity:</b><div style = "background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;">'.$rowStageItem['qty'].'</div></td>
+
+                                            <td><b>Total Amount:</b><div style = "background-color:#e6e6e6 ;border-radius:10px; padding-top:8px; padding-bottom:8px;padding-left:10px;">'.$rowStageItem['total_amount'].'</div></td>
                                             </tr>';
 
                                     }
@@ -106,6 +132,9 @@
 
                 
     </div>
+    </div>
+    </div>
+    </div>
 
     <!--   Core JS Files   -->
     <script src="../assets/js/core/jquery.min.js"></script>
@@ -121,7 +150,8 @@
     <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
     <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
     
-   
+   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 </body>
 
 </html>

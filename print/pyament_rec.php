@@ -30,12 +30,20 @@ if ($result = mysqli_query($conn, $dbQuery)){
 
 class myPDF extends FPDF {
     function header() {
-//        $this -> Image('',10.6);
-        $this -> SetFont('Arial','B',14);
-        $this -> Cell(276,4,'Payment',0,0,'C');
+        $this -> Image('../res/images/logo.png',10,10,50);
+        $this -> Ln(10);
+        $this -> SetFont('Arial','B',20);
+        $this -> Cell(276,4,'Reciept',0,0,'R');
         $this -> Ln();
         $this -> SetFont('Times','',12);
-        $this -> Cell(276,10,'Payment',0,0,'C');
+        $this -> Cell(276,10,'Payment',0,0,'R');
+        $this -> Ln();
+
+     
+
+       
+
+
         $this -> Ln(20);
     }
     function footer() {
@@ -46,19 +54,69 @@ class myPDF extends FPDF {
 }
 
 $pdf = new myPDF();
+
 $pdf->AddPage('L','A4',0);
-$pdf->SetFont('Arial', '', 16);
-$pdf->Cell(40, 10, 'Payment ID: '.$paymentId);
+
+$pdf -> SetFont('Times','',12); 
+$pdf -> Cell(276,10,'Reciept Reference :  '.$releaseDate,0,0,'R');
 $pdf -> Ln();
-$pdf->Cell(60, 10, 'Payment Date: '.$releaseDate);
+
+$pdf -> SetFont('Times','',12); 
+$pdf -> Cell(276,10,'Date :  '.$releaseDate,0,0,'R');
 $pdf -> Ln();
-$pdf->Cell(60, 10, 'Customer ID: '.$customerId);
+
+
+
+
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(60, 10, 'Customer Infromation: ');
 $pdf -> Ln();
-$pdf->Cell(60, 10, 'Customer Name: '.$customerName);
+$pdf -> SetFont('Times','',12); 
+$pdf->Cell(60, 10, 'Customer ID            :     '.$customerId);
 $pdf -> Ln();
-$pdf->Cell(60, 10, 'Project ID: '.$projectId);
+$pdf->Cell(60, 10, 'Customer Name       :      '.$customerName);
+$pdf -> Ln(20);
+
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(60, 10, 'Payment Details: ');
 $pdf -> Ln();
-$pdf->Cell(60, 10, 'Project Name: '.$projectName);
+$pdf -> SetFont('Times','',12); 
+$pdf->Cell(60, 10, 'Project ID             :     '.$projectId);
 $pdf -> Ln();
-$pdf->Cell(60, 10, 'Amount: '.$amount);
+$pdf->Cell(60, 10, 'Project Name        :     '.$projectName);
+$pdf -> Ln();  
+$pdf->Cell(60, 10, 'Amount                :      '.$amount);
+$pdf -> Ln();
+$pdf -> Ln();
+
+
+$pdf -> SetFont('Times','',12); 
+$pdf->Cell(280,5,"ID",1,0);
+
+$pdf->Ln();
+
+
+
+
+// $pdf->SetFont('Arial', 'B', 12);
+// $pdf->Cell(40, 10, 'Payment ID: ');
+
+// $pdf->SetFont('Arial', '', 12);
+// $pdf->Cell(40, 10, $paymentId,0,0,'R');
+// $pdf -> Ln();
+// $pdf->Cell(60, 10, 'Payment Date: '.$releaseDate);
+// $pdf -> Ln();
+
+// $pdf->Cell(60, 10, 'Project ID: '.$projectId);
+// $pdf -> Ln();
+// $pdf->Cell(60, 10, 'Project Name: '.$projectName);
+// $pdf -> Ln();
+// $pdf->Cell(60, 10, 'Amount: '.$amount);
+
+
+
+// $pdf->SetFont('Arial','B',14);
+// $pdf->Cell(50,5,"ID",1,0);
+// $pdf->Cell(50,5,"First Name",1,0);
+// $pdf->Ln();
 $pdf->Output();

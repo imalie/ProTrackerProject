@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +18,6 @@
 </head>
 
 <?php
-session_start();
 include 'mainHead.php';
 include_once '../controllers/config.inc.php';
 

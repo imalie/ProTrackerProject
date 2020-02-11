@@ -15,12 +15,14 @@ if (isset($_POST['pro_id'])) {
 }
 
 function updateActualStartDate($conn,$proId){
-    $dbQueryAcStartDate = "SELECT project.actual_start_date FROM project WHERE project.id = '".$proId."';";
+    $dbQueryAcStartDate = "SELECT project.pro_act_start_date FROM project WHERE project.id = '".$proId."';";
     $resultAcStartDate = mysqli_query($conn, $dbQueryAcStartDate);
     $rowAcStartDate = mysqli_fetch_assoc($resultAcStartDate);
-    if($rowAcStartDate['actual_start_date'] == "") {
-        $dbQuery = "UPDATE project SET actual_start_date = 'CURRENT_TIMESTAMP' WHERE id = '".$proId."';";
-        $result = mysqli_query($conn, $dbQuery);
+    if($rowAcStartDate['pro_act_start_date'] == "") {
+        date_default_timezone_set('Asia/Colombo');
+        $datetime = date('Y-m-d H:i:s', time());
+        $dbQuery = "UPDATE project SET pro_act_start_date = '".$datetime."' WHERE id = '".$proId."';";
+        mysqli_query($conn, $dbQuery);
     }
 }
 
@@ -74,17 +76,21 @@ function updateAcEndDateAndState($conn,$proId) {
     }
 
     if ($isAllStagesComp == true) {
-        $dbQuery = "UPDATE project SET actual_end_date = 'CURRENT_TIMESTAMP',status = 'complete' WHERE id = '".$proId."';";
-        $result = mysqli_query($conn, $dbQuery);
+        date_default_timezone_set('Asia/Colombo');
+        $datetime = date('Y-m-d H:i:s', time());
+        $dbQuery = "UPDATE project SET pro_act_end_date = '".$datetime."',status = 'complete' WHERE id = '".$proId."';";
+        mysqli_query($conn, $dbQuery);
     }
 }
 
 function updateStageAcDate($conn,$stageStatus,$stageId) {
+    date_default_timezone_set('Asia/Colombo');
+    $datetime = date('Y-m-d H:i:s', time());
     if ($stageStatus == "inprogress") {
-        $dbQueryStageSDate = "UPDATE stages SET actual_start_date = 'CURRENT_TIMESTAMP' WHERE stage_id = '".$stageId."';";
+        $dbQueryStageSDate = "UPDATE stages SET stage_act_start_date = '".$datetime."' WHERE stage_id = '".$stageId."';";
         mysqli_query($conn, $dbQueryStageSDate);
     } elseif ($stageStatus == "complete") {
-        $dbQueryStageEDate = "UPDATE stages SET actual_end_date = 'CURRENT_TIMESTAMP' WHERE stage_id = '".$stageId."';";
+        $dbQueryStageEDate = "UPDATE stages SET stage_act_end_date = '".$datetime."' WHERE stage_id = '".$stageId."';";
         mysqli_query($conn, $dbQueryStageEDate);
     }
 }

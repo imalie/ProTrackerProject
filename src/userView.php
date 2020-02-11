@@ -160,6 +160,7 @@ function updateImg($conn, $imageNewName)
     if (mysqli_query($conn, $dbImgUpdateQuery)) {
         global $imgUploadStatus;
         $imgUploadStatus['dbStatus'] = "Upload success to database";
+        $_SESSION['userImage'] = $imageNewName;
     } else {
         global $imgUploadedError;
         $imgUploadedError['dbError'] = "Upload error image to database";
@@ -287,7 +288,7 @@ function check_duplicate_nic($conn, $nic)
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 <div class="profile-img">
-                                    <img id="blah" src=<?php echo $_SESSION['userImage']; ?> alt="..." width="70%" />
+                                    <img id="blah" src="<?php echo $_SESSION['userImage']; ?>" alt="..." width="70%" />
                                     <label for="file-upload" class="file btn btn-lg btn-primary">
                                         Change Photo
                                     </label>

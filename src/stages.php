@@ -16,13 +16,12 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 </head>
-<!-- Navbar -->
-<?php include('mainHead.php') ?>
-            <!-- End Navbar -->
+ <?php include('mainHead.php') ?>
 <body class="">
     <div class="wrapper">
-        <div class="sidebar" data-color="green" style="margin-top: 80px;"  data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
+        <div class="sidebar" data-color="green" style="margin-top: 80px;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item active  ">
@@ -65,16 +64,28 @@
             </div>
         </div>
         <div class="main-panel">
+            <!-- Navbar -->
+           
+            <!-- End Navbar -->
             <div class="content">
                 <div class="container-fluid">
                     <?php
                     include_once '../controllers/config.inc.php';
                     ?>
             <div class="content">
-                <div class="container p-3" style="border: 2px solid red">
-                    <div>
-                        <h1>Add New Stage </h1>
-                    </div>
+                <div class="col-lg-12 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                   <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">view_list</i>
+                  </div>
+
+                  <h3 class="card-title"> Add New Stage
+                  </h3>
+                </div>
+
+            
+                <div class="card-header card-header-warning card-header-icon">
                     <div class="form-group">
                         <form id="form_01">
                             <div>
@@ -85,7 +96,7 @@
                                     <th width="10%">Project ID</th>
                                     <td class="w-25"><input type="text" id="pro_id" placeholder="Project ID" class="form-control" disabled></td>
                                     <th width="15%">Project Name</th>
-                                    <td class="w-75"><input type="text" id="pro_name" placeholder="Project Name" class="form-control"></td>
+                                    <td class="w-75"><input type="text" id="pro_name" placeholder="Project Name" class="form-control" autocomplete="off"></td>
                                 </tr>
                             </table>
                         </form>
@@ -95,9 +106,9 @@
                                 <table class="table table-borderless">
                                     <tr>
                                         <th width="5%">Stage Name</th>
-                                        <td class="w-75"><input id="stage_name" type="text" class="form-control" placeholder="Stage Name"></td>
+                                        <td class="w-55"><input id="stage_name" type="text" class="form-control" placeholder="Stage Name"></td>
                                         <th width="10%">Approximate Budget</th>
-                                        <td class="w-25"><input id="approx_budget" type="text" class="form-control" placeholder="Approximate Budget" disabled></td>
+                                        <td class="w-45"><input id="approx_budget" type="text" class="form-control" placeholder="Approximate Budget" disabled></td>
                                     </tr>
                                     <th>Description</th>
                                     <tr>
@@ -110,16 +121,17 @@
                                 <div class="border rounded">
                                     <table class="table table-borderless" id="item_table">
                                         <tr>
-                                        <tr>
+                                        
                                             <th>Item ID</th>
                                             <th>Item Name</th>
                                             <th>Unit Of Measure</th>
                                             <th>Unit Cost</th>
                                             <th>Quantity</th>
-                                            </th>
+                                            
                                             <th>Total Amount</th>
 
                                         </tr>
+                                        <tr>
                                         <td><input id="item_id" type="text" class="form-control" placeholder="Item ID" disabled></td>
                                         <td><input id="item_name" type="text" class="form-control" placeholder="Item Name"></td>
                                         <td><input id="uom" type="text" class="form-control" placeholder="UoM" disabled></td>
@@ -148,6 +160,7 @@
                 </footer>
             </div>
         </div>
+
         <script src="searchController.js"></script>
         <script src="fieldCentraler.js"></script>
         <!--   Core JS Files   -->
@@ -162,6 +175,13 @@
         <script src="../assets/js/plugins/jquery.validate.min.js"></script>
         <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
         <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
+
+
+<!--scrool issues if not there -->
+<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+        
+
 
 
 </body>

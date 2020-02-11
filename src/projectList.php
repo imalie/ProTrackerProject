@@ -53,6 +53,7 @@
         <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
+                    <h4>Project View</h4>
                     <?php
                     include_once '../controllers/config.inc.php';
                     ?>
@@ -69,6 +70,7 @@
                                 <th class="">End Date</th>
                                 <th class="">Release Date</th>
                                 <th class="">Option</th>
+                                <th class="">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,7 +91,10 @@
                                             <td>' . $row['start_date'] . '</td>
                                             <td>' . $row['end_date'] . '</td>
                                             <td>' . $row['release_date'] . '</td>
-                                            <td><a href="projectViewer.php?id=' . $row['id'] . '">View</a></td>
+                                            <td class="btn btn-outline-info"><a href="projectViewer.php?id=' . $row['id'] . '">View</a></td>
+                                            <td class="btn btn-outline-info"><a href="projectApproval.php?id=' . $row['id'] . '">View</a></td>
+                                 
+
                                         </tr>';
                                     }
                                 } else {

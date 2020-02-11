@@ -57,14 +57,15 @@ if (isset($_POST['update'])) {
             } else {
                 $validateError['planDocError4'] = "plan file upload error";
             }
+            $planDocName = $fileNewName;
         }
-        $planDocName = $fileNewName;
+       
     }
 
     if (!($_FILES['boq_doc']['name'] == null)) {
         $fileBoqExt = explode('.', $_FILES['boq_doc']['name']);
         $fileBoqActualExt = strtolower(end($fileBoqExt));
-        $boqAllowed = array('pdf');
+        $boqAllowed = array('xlsm','xlsx');
         if (!(in_array($fileBoqActualExt, $boqAllowed))) {
             $validateError['boqDocError1'] = "Can not upload format of this file";
         }
@@ -83,12 +84,13 @@ if (isset($_POST['update'])) {
             } else {
                 $validateError['boqDocError4'] = "boq file upload error";
             }
+            $boqDocName = $fileBoqNewName;
         }
-        $boqDocName = $fileBoqNewName;
+       
     }
 
     if (0 === count($validateError)) {
-        $dbQuery = "UPDATE `project` SET `address`=".$_POST['address'].",`approx_budget`=".$_POST['approx_budget'].",`start_date`=".$_POST['start_date'].",`end_date`=".$_POST['end_date']." WHERE id='".$_POST['update']."';";
+        $dbQuery = "UPDATE `project` SET `address`='".$_POST['address']."',`approx_budget`='".$_POST['approx_budget']."',`start_date`='".$_POST['start_date']."',`end_date`='".$_POST['end_date']."' WHERE id='".$_POST['update']."';";
 
         if (mysqli_query($conn, $dbQuery)) {
             $SubmitStatus['dbStatus'] = "Submit success";
@@ -187,8 +189,10 @@ function getUserInfo($conn)
                 <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
                 <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
                 <link href="../assets/demo/demo.css" rel="stylesheet" />
+                <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
             </head>
-
+            <?php include('mainHead.php')
+            ?>
  <body class="">
     <div class="wrapper">
         <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
@@ -208,6 +212,7 @@ function getUserInfo($conn)
                             <p>Project Creation</p>
                         </a>
                     </li>
+                  
                     <li class="nav-item ">
                         <a class="nav-link" href="./projectList.php">
                             <i class="material-icons">
@@ -220,15 +225,21 @@ function getUserInfo($conn)
             </div>
         </div>
         <div class="main-panel">
-            <?php include('mainHead.php')
-            ?>
+            
             <div class="content">
                 <div class="container-fluid">
                     <h3><u>Project Information </u></h3>
 
-                    <div>
+                   <div class="row" style="padding-left: 20px">
+                        <div class="col-sm-4">
                         <a class="btn btn-success" target="_blank" href="stock-adjustment.php?id=<?php echo $detail_id; ?>">Stock Adjustment</a>
+                       </div>
+                        <div class="col-sm-4">
                         <a class="btn btn-success" target="_blank" href="stock-out.php?id=<?php echo $detail_id; ?>">Stock Out</a>
+                       </div>
+                        <div class="col-sm-4">
+
+
                         <?php
                         if ($isStages == true) {
                             echo '
@@ -237,10 +248,60 @@ function getUserInfo($conn)
                         }
                         ?>
                     </div>
-                    <div class="border rounded p-3 bg-info" style="width: 11rem; height: 5rem">
-                        <span class="">Status</span><br>
-                        <p><?php echo $status; ?></p>
                     </div>
+
+
+
+                      <div class="row" style="padding-top:20px ;padding-left:40px">
+
+          
+                    <?php
+
+                     
+                    if($status=='complete')
+                    {
+                        $catname='<div class="progress-bar bg-success" role="progressbar" style="width: 100% ; color : black" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100";>'; 
+                        $percentage = '100%'; 
+                        $name = 'Complete - '; 
+                    }
+                    elseif($status=='inprogress')
+                    {
+                        $catname='<div class="progress-bar bg-info" role="progressbar" style="width: 50% ; color : black" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100";>'; 
+                        $percentage = '50%'; 
+                        $name = 'In Progress - '; 
+                    }
+                   elseif($status=='hold')
+                    {
+                        $catname='<div class="progress-bar bg-warning" role="progressbar" style="width: 40% ; color : black" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100";>'; 
+                        $percentage = '40%'; 
+                        $name = 'Hold - '; 
+                    }
+                    elseif($status=='notstart')
+                    {
+                        $catname='<div class="progress-bar bg-danger" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">'; 
+                        $percentage = '0%';
+                         $name = 'Pending - ';   
+                    }
+                   
+                    else
+                    {
+                        $catname='';
+                    }
+                    ?>
+
+
+                    <div class="progress col-11" style="height:30px ; margin-left : 20px;margin-right : 20px">
+                      <?php echo $catname; ?>
+                      <?php echo $name; ?>
+                      
+                      <?php echo $percentage; ?> 
+                          
+                    </div>
+
+
+         </div>
+
+
 
             <form class="form-group" method="post" enctype="multipart/form-data">
                 <div>
@@ -270,7 +331,7 @@ function getUserInfo($conn)
                             <div class="input-group-append">
                                 <span class="input-group-text">LKR</span>
                                 <input type="number" class="form-control" name="approx_budget" value="<?php echo $approxBudget; ?>" required>
-                                <!--<span class="input-group-text">0.00</span>--->
+                                <!--<span class="input-group-text">0.00</span>-->
                             </div>
                         </div>
                     </div>
@@ -294,7 +355,7 @@ function getUserInfo($conn)
                                                                 echo '<label class="text-danger">  ' . $validateError['plan_doc'] . '</label>';
                                                             } ?>
                             <div class="custom-file">
-                                <input type="file" class="" name="plan_doc">
+                                <input type="file" class="" name="plan_doc" accept="application/pdf">
                                 <label class="" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">
                                     <a href="../doc/file/<?php echo $planDoc; ?>">Go to Plan Document</a>
                                 </label>
@@ -306,7 +367,7 @@ function getUserInfo($conn)
                                                             echo '<label class="text-danger">  ' . $validateError['boq_doc'] . '</label>';
                                                         } ?>
                             <div class="custom-file">
-                                <input type="file" class="" name="boq_doc">
+                                <input type="file" class="" name="boq_doc" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"/>
                                 <label class="" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">
                                     <?php
                                     if (0 != count($boqDocArray)) {
@@ -359,6 +420,8 @@ function getUserInfo($conn)
             ?>
         </div>
         </body>
+        <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 </html>
 
         <?php include 'mainFooter.php'; ?>

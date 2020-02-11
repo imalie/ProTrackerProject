@@ -5507,6 +5507,7 @@ button.close {
   display: none;
   overflow: hidden;
   outline: 0;
+ 
 }
 
 .modal-open .modal {

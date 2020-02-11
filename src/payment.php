@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+      <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 </head>
  <!-- Navbar -->
  <?php include('mainHead.php') ?>
@@ -232,5 +233,6 @@
             }
         });
     </script>
-
+<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 <?php include 'mainFooter.php'; ?>

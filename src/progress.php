@@ -16,6 +16,8 @@
     <script type="text/javascript" src="../res/ad/jquery.min.js"></script>
     <script type="text/javascript" src="../res/ad/bootstrap.js"></script>
 </head>
+<?php include('mainHead.php')
+            ?>
 <body class="">
     <div class="wrapper">
         <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
@@ -28,20 +30,20 @@
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="./stock-adjustment.php">
+                        <a class="nav-link" href="./projectList.php">
                             <i class="material-icons">
-                                dns
+                                assignment
                             </i>
-                            <p>Stock Adjustment</p>
+                            <p>Project Report</p>
                         </a>
                     </li>
                     
                 </ul>
             </div>
         </div>
-        <div class="main-panel">
+        <div class="main-panel" style="background-color: white; ">
             <!-- Navbar -->
-            <?php include('mainHead.php') ?>
+
             <!-- End Navbar -->
             <div class="content">
                 <div class="container-fluid">
@@ -50,7 +52,7 @@
 include '../controllers/config.inc.php';
 $pro_id = $_GET['id'];
 
-$dbQuery = "SELECT project.pro_name,project.actual_start_date,project.actual_end_date,project.status,stages.stages_status,stages.stage_id,stages.stage_name,project.in_paid_state,stages.actual_start_date,stages.actual_end_date FROM project JOIN stages ON project.id = stages.pro_id
+$dbQuery = "SELECT project.pro_name,project.pro_act_start_date,project.pro_act_end_date,project.status,stages.stages_status,stages.stage_id,stages.stage_name,project.in_paid_state,stages.stage_act_start_date,stages.stage_act_end_date FROM project JOIN stages ON project.id = stages.pro_id
             WHERE project.id = '".$pro_id."';";
 
 $dataset = array();
@@ -59,19 +61,27 @@ if ($result = mysqli_query($conn, $dbQuery)) {
         while ($row = mysqli_fetch_assoc($result)) {
             $data = array();
             $data['pro_name'] = $row['pro_name'];
-            $data['ac_start_date'] = $row['actual_start_date'];
-            $data['ac_end_date'] = $row['actual_end_date'];
+
+            if ($row['pro_act_start_date'] != ""){
+                $data['ac_start_date'] = $row['pro_act_start_date'];
+            } else {$data['ac_start_date'] = "Not yet";}
+            if ($row['pro_act_end_date'] != ""){
+                $data['ac_end_date'] = $row['pro_act_end_date'];
+            }else {$data['ac_end_date'] = "Not yet";}
+
             $data['stage_id'] = $row['stage_id'];
             $data['stage_name'] = $row['stage_name'];
             $data['in_paid_state'] = $row['in_paid_state'];
             $data['status'] = $row['status'];
             $data['stages_status'] = $row['stages_status'];
-            if ($row['actual_start_date'] != ""){
-                $data['actual_start_date'] = $row['actual_start_date'];
+
+            if ($row['stage_act_start_date'] != ""){
+                $data['actual_start_date'] = $row['stage_act_start_date'];
             } else {$data['actual_start_date'] = "Not yet";}
-            if ($row['actual_end_date'] != ""){
-                $data['actual_end_date'] = $row['actual_end_date'];
+            if ($row['stage_act_end_date'] != ""){
+                $data['actual_end_date'] = $row['stage_act_end_date'];
             }else {$data['actual_end_date'] = "Not yet";}
+
             array_push($dataset, $data);
         }
     }
@@ -115,15 +125,42 @@ $complete = ($completeCount/count($dataset))*100;
                      </div> 
                 </div>
             </div>
+
+              <style>
+                    #box {
+                        background-color:#e6e6e6 ;border-radius:10px; padding-top:6px; padding-left:10px;
+
+                    }
+
+                   
+                </style>
+
 <div class="container p-3">
     <div>
-        <h2>Progress</h2>
+        <h2><b> Project Progress Details</b></h2>
     </div>
     <table class="table">
         <tr>
-            <td class="w-25"><label for="">Project ID</label><input class="form-control" id="pro_id" value="<?php echo $pro_id; ?>" disabled></td>
-            <td class="w-auto"><label for="">Project Name</label><input class="form-control" id="pro_name" value="<?php echo $dataset[0]['pro_name']; ?>" disabled></td>
-            <td class="w-auto"><label for="">Status Value</label><input class="form-control" value="<?php echo $complete; ?> %" disabled></td>
+
+
+
+            <td class="w-25"><label for="">Project ID</label>
+                <div id = "box">
+                <input class="form-control" id="pro_id" value="<?php echo $pro_id; ?>" disabled>
+            </div>
+            </td>
+
+
+
+
+            <td class="w-auto"><label for="">Project Name</label><div id = "box">
+                <input class="form-control" id="pro_name" value="<?php echo $dataset[0]['pro_name']; ?>" disabled></div>
+            </td>
+            <td class="w-auto"><label for="">Status Value</label><div id = "box">
+                <input class="form-control" value="<?php echo $complete; ?> %" disabled></div>
+            </td>
+
+
             <?php
             if ($dataset[0]['in_paid_state'] == 1) {
                 if ($dataset[0]['status'] == 'inprogress') {
@@ -137,25 +174,38 @@ $complete = ($completeCount/count($dataset))*100;
             }
             ?>
         </tr>
-        <tr>
-            <td><label for="">Actual Start Date</label><br><label for=""><?php if($dataset[0]['ac_start_date']==""){echo 'Not Start Yet';} else {echo $dataset[0]['ac_start_date'];} ?></label></td>
-            <td><label for="">Actual End Date</label><br><label for=""><?php if($dataset[0]['ac_end_date']==""){echo 'Not End Yet';} else {echo $dataset[0]['ac_end_date'];} ?></label></td>
+        
+    </table>
+
+ <table class="table  w-100">
+       <tr>
+            <td>
+                <label for="">Actual Start Date</label><br><div id = "box">
+                <label for=""><?php echo $dataset[0]['ac_start_date']; ?></label></div>
+            </td>
+            <td>
+                <label for="">Actual End Date</label><br><div id = "box">
+                <label for=""><?php echo $dataset[0]['ac_end_date']; ?></label></div>
+            </td>
         </tr>
     </table>
+
+
+
+
     <table class="table border w-100">
         <?php
         for ($i = 0; $i < count($dataset); $i++) {
             echo '<tr>
-                    <td class="w-25"><label for="">Stage Id</label><input type="text" id="stage_id_' . $i . '" class="form-control stage_id" value="' . $dataset[$i]['stage_id'] . '" disabled></td>
-                    <td class="w-25"><label for="">Stage Name</label><input type="text" class="form-control" value="' . $dataset[$i]['stage_name'] . '" disabled></td>
-                    <td class="w-25"><label for="">Start Date</label><input type="text" class="form-control" value="' . $dataset[$i]['actual_start_date'] . '" disabled></td>
-                    <td class="w-25"><label for="">Stage End</label><input type="text" class="form-control" value="' . $dataset[$i]['actual_end_date'] . '" disabled></td>
-                    <td class="w-25"><a class="btn btn-success" href="progressImgesView.php?id='.$dataset[$i]['stage_id'].'" target="_blank">View Image</a></td>';
+                    <td class="w-21"><label for="">Stage Id</label><input type="text"   style ="background-color:#e6efff ;border-radius:10px; padding-top:6px; padding-left:10px;" id="stage_id_' . $i . '" class="form-control stage_id" value="' . $dataset[$i]['stage_id'] . '" disabled></td>
+                    <td class="w-25"><label for="">Stage Name</label><input type="text"  style ="background-color:#e6efff ;border-radius:10px; padding-top:6px; padding-left:10px;"  class="form-control" value="' . $dataset[$i]['stage_name'] . '" disabled></td>
+                    <td class="w-22"><label for="">Start Date</label><input type="text"  style ="background-color:#e6efff ;border-radius:10px; padding-top:6px; padding-left:10px;"  class="form-control" value="' . $dataset[$i]['actual_start_date'] . '" disabled></td>
+                    <td class="w-22"><label for="">Stage End</label><input type="text"  style ="background-color:#e6efff ;border-radius:10px; padding-top:6px; padding-left:10px;"  class="form-control" value="' . $dataset[$i]['actual_end_date'] . '" disabled></td>
+                    <td class="w-30" ><br><a class="btn btn-success"  href="progressImgesView.php?id='.$dataset[$i]['stage_id'].'" target="_blank">View Image</a></td>';
             if ($dataset[0]['status'] == 'inprogress') {
                 if ($dataset[$i]['stages_status'] == 'inprogress') {
                     echo '<td class="w-25"><label for="">Status</label><br>
                             <select id="stages_status_' . $i . '" class="custom-select">
-                                <option value="notstart">Not Start</option>
                                 <option selected value="inprogress">Inprogress</option>
                                 <option value="hold">Hold</option>
                                 <option value="complete">Complete</option>
@@ -165,7 +215,6 @@ $complete = ($completeCount/count($dataset))*100;
                 } else if ($dataset[$i]['stages_status'] == 'hold') {
                     echo '<td class="w-25"><label for="">Status</label><br>
                             <select id="stages_status_' . $i . '" class="custom-select">
-                                <option value="notstart">Not Start</option>
                                 <option value="inprogress">Inprogress</option>
                                 <option selected value="hold">Hold</option>
                                 <option value="complete">Complete</option>
@@ -177,15 +226,12 @@ $complete = ($completeCount/count($dataset))*100;
                             <select id="stages_status_' . $i . '" class="custom-select">
                                 <option selected value="notstart">Not Start</option>
                                 <option value="inprogress">Inprogress</option>
-                                <option value="hold">Hold</option>
-                                <option value="complete">Complete</option>
                             </select>
                             </td>               
                             </tr>';
                 } else {
                     echo '<td class="w-25"><label for="">Status</label><br>
                             <select id="stages_status_' . $i . '" class="custom-select">
-                                <option value="notstart">Not Start</option>
                                 <option value="inprogress">Inprogress</option>
                                 <option value="hold">Hold</option>
                                 <option selected value="complete">Complete</option>
@@ -208,18 +254,26 @@ $complete = ($completeCount/count($dataset))*100;
         </select>
         <input type="file" name="file">
         <input type="number" id="pro_ids" class="d-none" name="pro_id" value="">
-        <input type="submit" class="btn btn-outline-success" name="stages_name_img" id="submit" value="Submit">
+        <input type="submit"  class="btn btn-outline-success float-right" name="stages_name_img" id="submit" value="Submit" >
     </form>
-    <table class="table">
-        <tr><td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#remarkModal">Remark</button></td></tr>
+    <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#remarkModal">Remark</button></td></tr>
+    <?php
+    for ($i = 0; $i < count($datasetRemark); $i++) {
+        echo '<tr><td colspan="2"><textarea class="form-control" disabled>' . $datasetRemark[$i]['remark'] . '</textarea></td></tr>';
+    }
+    ?>
+
+
+    <!-- <table class="table">
+        <tr><td><button type="button" class="btn btn-success " data-toggle="modal" data-target="#remarkModal">Remark</button></td></tr>
         <?php
         for ($i = 0; $i < count($datasetRemark); $i++) {
             echo '<tr><td colspan="2"><textarea class="form-control" disabled>' . $datasetRemark[$i]['remark'] . '</textarea></td></tr>';
         }
         ?>
-    </table>
+    </table> -->
     <div class="modal fade" role="dialog" id="remarkModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <label class="modal-title">Add Remark</label>
@@ -328,7 +382,7 @@ $complete = ($completeCount/count($dataset))*100;
 
             if (validate) {
                 var dataset = {
-                    'pro_id': '1',
+                    'pro_id': $('#pro_id').val(),
                     'remark': remark,
                     'visible': visible
                 };
@@ -369,3 +423,5 @@ $complete = ($completeCount/count($dataset))*100;
         }));
     });
 </script>
+<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>

@@ -46,7 +46,11 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 </head>
+<!-- Navbar -->
+<?php include('mainHead.php') ?>
+            <!-- End Navbar -->
 <body class="">
     <div class="wrapper">
         <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
@@ -79,32 +83,29 @@
                         <i class="material-icons">
                             next_week
                             </i>    
-                            <p>Product Creation</p>
+                            <p>Material Creation</p>
                         </a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="./productUom.php">
                             <i class="material-icons">library_books</i>
-                            <p>Add New Product UOM</p>
+                            <p>Add New Material UOM</p>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="main-panel">
-            <!-- Navbar -->
-            <?php include('mainHead.php') ?>
-            <!-- End Navbar -->
             <div class="content">
                 <div class="container-fluid">
                     <?php
                     include_once '../controllers/config.inc.php';
                     ?>
                     <div class="container">
-            <h1>Product Unit Of Measure</h1>
+            <h1>Construction Material Unit Of Measure</h1>
             <form class="form-group" method="post">
                     <div>
-                        <h4>Add  New Product </h4>
+                        <h4>Add  New Material Measurement </h4>
                     </div>
                     <div>
                         <div class="form-row">
@@ -136,7 +137,7 @@
                         </div>
                     </div>
                     <div class="">
-                                <button type="submit" name="submit" value="submit" class="btn btn-success">Create product</button>
+                                <button type="submit" name="submit" value="submit" class="btn btn-success">Create Unit Of Measure</button>
                  </div>
                 
             </form>
@@ -161,8 +162,9 @@
           </div>';
                         }
                         ?>
-                        <table class="table border">
-                            <thead>
+                      
+                            <table class="table table-hover table-striped table-responsive-sm">
+                             <thead class="thead-dark">
                                 <tr class="">
                                     <th class="">UOM Code</th>
                                     <th class="">Description</th>

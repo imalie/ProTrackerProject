@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
     <script type="text/javascript" src="../res/ad/jquery.min.js"></script>
     <script type="text/javascript" src="../res/ad/bootstrap.js"></script>
+
   
     
 </head>
@@ -70,14 +71,14 @@
            
             <div class="content">
                 <div class="container-fluid">
+                    <h2>Stage  List Report</h2>
                     <?php
                     include_once '../controllers/config.inc.php';
                     ?>
                     <!--<button type="button" class="btn btn-outline-secondary"><a href="./stages.php">Add Stage</a></button>-->
 
                     <table class="table table-hover table-striped table-responsive-sm" >
-                        <thead class="thead-dark ">
-                            <thead>
+                        <thead class="thead-dark">
                                 <tr class="">
                                     <th class="">Project ID</th>
                                     <th class="">Project Name</th>
@@ -105,7 +106,7 @@
                                     <td>' . $row['SUM(stages.approx_budget)'] . '</td>
                                     <td>' . $row['release_date'] . '</td>                                    
                                     <td>' . $rowPro['email'] . '</td>
-                                    <td><a href="stage-viewer.php?id=' . $row['pro_id'] . '">View</a></td>
+                                    <td class="btn btn-outline-info"><a href="stage-viewer.php?id=' . $row['pro_id'] . '">View</a></td>
                                   </tr>';
                                     }
                                 } else {

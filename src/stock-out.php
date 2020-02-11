@@ -13,10 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+         <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 </head>
+<!-- Navbar -->
+            <?php include('mainHead.php') ?>
+            <!-- End Navbar -->
 <body class="">
 <div class="wrapper">
-    <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
+    <div class="sidebar" data-color="green" style="margin-top: 80px;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li class="nav-item active  ">
@@ -26,11 +30,11 @@
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="./stock-adjustment.php">
+                    <a class="nav-link" href="">
                         <i class="material-icons">
                             dns
                         </i>
-                        <p>Stock Adjustment</p>
+                        <p>Stock Out</p>
                     </a>
                 </li>
 
@@ -38,9 +42,7 @@
         </div>
     </div>
     <div class="main-panel">
-        <!-- Navbar -->
-        <?php include('mainHead.php') ?>
-        <!-- End Navbar -->
+       
         <div class="content">
             <div class="container-fluid">
                 <h2>Stock Out</h2>
@@ -54,21 +56,31 @@
                         while ($rowStage = mysqli_fetch_assoc($resultStage)) {
                             echo '<div class="border rounded mt-2">
                                         <table class="table table-borderless">
-                                        <tr><td>Stage Name: ' . $rowStage['stage_name'] . '</td></tr>';
+                                        <tr><td><b><font  style = "padding-bottom:15px;">Stage Name: </font></b> &nbsp; <div style = "background-color:#c9ffd8 ;border-radius:10px; padding-top:8px; padding-bottom:8px; padding-left:10px;"> ' . $rowStage['stage_name'] . '</div></td></tr>';
 
-                            $dbQueryStagesItem = "SELECT stages_item.id,stages_item.item_id,product.product_name FROM stages_item JOIN product ON stages_item.item_id = product.id WHERE stages_item.stage_id = '" . $rowStage['stage_id'] . "';";
+                            $dbQueryStagesItem = "SELECT stages_item.id,stages_item.item_id,stages_item.item_cost,product.product_name,product.product_type FROM stages_item JOIN product ON stages_item.item_id = product.id WHERE stages_item.stage_id = '" . $rowStage['stage_id'] . "';";
+
                             if ($resultStageItem = mysqli_query($conn, $dbQueryStagesItem)) {
                                 if (mysqli_num_rows($resultStageItem) > 0) {
                                     while ($rowStageItem = mysqli_fetch_assoc($resultStageItem)) {
                                         $itemCount++;
-                                        $unitCost = availableUnitCost($conn,$rowStage['stage_id'],$rowStageItem['item_id']);
-                                        $availableQty = availableQty($conn,$rowStage['stage_id'],$rowStageItem['item_id']);
+                                        if ($rowStageItem['product_type'] == "goods") {
+                                            $unitCost = availableUnitCost($conn,$rowStage['stage_id'],$rowStageItem['item_id']);
+                                            if ($unitCost == 0) {
+                                                $unitCost = $rowStageItem['item_cost'];
+                                            }
+                                            $availableQty = availableQty($conn,$rowStage['stage_id'],$rowStageItem['item_id']);
+                                        } else {
+                                            $unitCost = $rowStageItem['item_cost'];
+                                            $availableQty = "-";
+                                        }
                                         echo '</table></div><div class="border rounded">
                                                     <table class="table table-borderless" id="item_table">
                                                     <tr>
                                                     <tr>
                                                     <th>Item ID</th>
                                                     <th>Product Name</th>
+                                                    <th>Product Type</th>
                                                     <th>Unit Cost</th>
                                                     <th>Available Qty</th>
                                                     <th>Add Qty</th>
@@ -76,11 +88,12 @@
                                                     </tr>
                                                     <tr>
                                                     <td class="d-none"><input type="number" id="proid_' . $itemCount . '" value="' . $proId . '"></td>                                       
-                                                    <td class="d-none"><input type="number" id="stage_item_' . $itemCount . '" value="' . $rowStageItem['id'] . '"></td>                                       
+                                                    <td class="d-none"><input type="number" id="stage_id_' . $itemCount . '" value="' . $rowStage['stage_id'] . '"></td>                                       
                                                     <td><input type="number" id="item_id_' . $itemCount . '" value="' . $rowStageItem['item_id'] . '" class="form-control" disabled></td>
                                                     <td><input type="text" value="' . $rowStageItem['product_name'] . '" class="form-control" disabled></td>
+                                                    <td><input type="text" value="' . $rowStageItem['product_type'] . '" class="form-control" disabled></td>
                                                     <td><input type="number" id="item_cost_' . $itemCount . '" value="' . $unitCost . '" class="form-control" disabled></td>
-                                                    <td><input type="number" id="ava_qty_' . $itemCount . '" value="' . $availableQty . '" class="form-control" disabled></td>
+                                                    <td><input type="text" id="ava_qty_' . $itemCount . '" value="' . $availableQty . '" class="form-control" disabled></td>
                                                     <td><input type="number" id="add_qty_' . $itemCount . '" class="form-control" placeholder="Add qty"></td>
                                                     </tr>';
                                     }
@@ -115,10 +128,13 @@
                 function availableUnitCost($conn,$stageId,$itemId){
                     $unitCost = 0;
                     $dbQueryInStock = "SELECT SUM(pro_stock_in.item_cost),COUNT(pro_stock_in.item_id) FROM pro_stock_in WHERE pro_stock_in.stage_id = '".$stageId."' AND pro_stock_in.item_id = '".$itemId."';";
+
                     if ($resultInStock = mysqli_query($conn, $dbQueryInStock)) {
                         if (mysqli_num_rows($resultInStock) > 0) {
                             $rowInStock = mysqli_fetch_assoc($resultInStock);
-                            $unitCost = $rowInStock['SUM(pro_stock_in.item_cost)'] / $rowInStock['COUNT(pro_stock_in.item_id)'];
+                            if ($rowInStock['SUM(pro_stock_in.item_cost)'] != "") {
+                                $unitCost = $rowInStock['SUM(pro_stock_in.item_cost)'] / $rowInStock['COUNT(pro_stock_in.item_id)'];
+                            }
                         }
                     }
                     return $unitCost;
@@ -134,14 +150,16 @@
                         var validate = false;
 
                         for (var y = 1; y <= itemCount; y++) {
-                            var ads_qty = parseInt($('#add_qty_' + y + '').val());
-                            var ava_qty = parseInt($('#ava_qty_' + y + '').val());
+                            if ($('#ava_qty_' + y + '').val() !== "-") {
+                                var ads_qty = parseInt($('#add_qty_' + y + '').val());
+                                var ava_qty = parseInt($('#ava_qty_' + y + '').val());
 
-                            if (ava_qty < ads_qty) {
-                                addClassWarning('add_qty_' + y + '');
-                                validate = false;
-                            } else {
-                                validate = true;
+                                if (ava_qty < ads_qty) {
+                                    addClassWarning('add_qty_' + y + '');
+                                    validate = false;
+                                } else {
+                                    validate = true;
+                                }
                             }
                         }
 
@@ -153,7 +171,7 @@
                                     var set = {
                                         'pro_id': $('#proid_' + i + '').val(),
                                         'item_id': $('#item_id_' + i + '').val(),
-                                        'stage_id': $('#stage_item_' + i + '').val(),
+                                        'stage_id': $('#stage_id_' + i + '').val(),
                                         'unit_cost': $('#item_cost_' + i + '').val(),
                                         'ads_qty': ads_qty_tmp
                                     };
@@ -174,6 +192,7 @@
                                     var ttt = JSON.parse(data);
                                     if (ttt['state'].includes("OK")) {
                                         alert('update success');
+                                        location.reload();
                                     } else {
                                         alert('error');
                                     }
@@ -187,4 +206,8 @@
                     }
                 });
             </script>
+            <br>
+            <br>
+             <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 <?php include 'mainFooter.php'; ?>

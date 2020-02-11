@@ -28,15 +28,9 @@ if (isset($_POST['submit'])){
         } else { $validateError['unit_cost'] = "Enter numbers only"; }
     }
 
-    if (empty($_POST['product_type'])){
-        $validateError['product_type'] = "product_type is empty";
-    } else {
-        $productType = $_POST['product_type'];
-    }
-
     if (0 === count($validateError)){
         $dbQuery = "INSERT INTO product(product_name, product_desc, uom_code, unit_cost, product_type, release_user) 
-                    VALUES ('".$productName."','".$productDesc."','".$uomCode."','".$unitCost."','".$productType."','".$_SESSION['userID']."');";
+                    VALUES ('".$productName."','".$productDesc."','".$uomCode."','".$unitCost."','goods','".$_SESSION['userID']."');";
 
         if (mysqli_query($conn, $dbQuery)){
             $SubmitStatus['dbStatus'] = "Submit success";
@@ -57,10 +51,49 @@ if (isset($_POST['submit'])){
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
+    <script type="text/javascript" src="../res/ad/jquery.min.js"></script>
+    <script type="text/javascript" src="../res/ad/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../res/ad/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="../assets/css/mat-icons.css" />
     <link href="../assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
     <link href="../assets/demo/demo.css" rel="stylesheet" />
+     <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
+
+
+     <style>
+        #scroll-table thead, tbody { display: block; }
+
+        #scroll-table tbody {
+            height: 200px;       /* Just for the demo          */
+            overflow-y: auto;    /* Trigger vertical scroll    */
+            overflow-x: hidden;  /* Hide the horizontal scroll */
+        }
+     </style>
+
+     <script>
+         $(document).ready(function(){
+           // Change the selector if needed
+var $table = $('#scroll-table'),
+    $bodyCells = $table.find('tbody tr:first').children(),
+    colWidth;
+
+// Get the tbody columns width array
+colWidth = $bodyCells.map(function() {
+    return $(this).width();
+}).get();
+
+// Set the width of thead columns
+$table.find('thead tr').children().each(function(i, v) {
+    $(v).width(colWidth[i]);
+});  
+});
+     </script>
+    
+    
+
 </head>
+    <?php include('mainHead.php')
+            ?>
 <body class="">
     <div class="wrapper">
         <div class="sidebar" data-color="green" style="margin-top: 10vh;" data-background-color="green" data-image="../assets/img/sidebar-1.jpg">
@@ -93,13 +126,13 @@ if (isset($_POST['submit'])){
                         <i class="material-icons">
                             next_week
                             </i>    
-                            <p>Product Creation</p>
+                            <p>Material Creation</p>
                         </a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="./productUom.php">
                             <i class="material-icons">library_books</i>
-                            <p>Add New Product UOM</p>
+                            <p>Add New Material UOM</p>
                         </a>
                     </li>
                 </ul>
@@ -107,7 +140,7 @@ if (isset($_POST['submit'])){
         </div>
         <div class="main-panel">
             <!-- Navbar -->
-            <?php include('mainHead.php') ?>
+           
             <!-- End Navbar -->
             <div class="content">
                 <div class="container-fluid">
@@ -115,61 +148,40 @@ if (isset($_POST['submit'])){
                     include_once '../controllers/config.inc.php';
                     ?>
                     <div class="container">
-                        <h1>Product Creation</h1>
+                        <h1>Material Creation</h1>
                         <form class="form-group" method="post">
                                 <div>
-                        <h4>Add Product </h4>
+                        <h4>Add New  Material Deatil </h4>
                     </div>
                     <div>
                         <div class="form-row">
                                         <div class="form-group col-md-12">
-                                                <label>Enter unit Of Measure :</label>
+                                                <label>Enter meterialt Name :</label>
                                                 <input type="text"  class="form-control"name="product_name" placeholder="Product name" required>
                                         </div>
                         </div>
                         <div class="form-row">
                                         <div class="form-group col-md-12">
-                                                <label>Enter  Product Description:</label>
+                                                <label>Enter  Material Description:</label>
                                                 <textarea required="required"  name="product_desc" class="form-control"
                                                 placeholder="Enter product Description in detail"></textarea>
                                         </div>
                         </div>
                         <div class="form-row">
-                                        <div class="form-group col-md-12">
-                                                <label>Enter  Unit Of Measure code:</label>
+                                        <div class="form-group col-md-6">
+                                                <label>Enter Material Unit Of Measure code:</label>
                                                 <input type="text" class="form-control" id="uom" name="uom_code" placeholder="uom" 
                                                 autocomplete="off" class="ui-autocomplete-input">
                                         </div>
-                        </div>
-                        <div class="form-row">
-                                        <div class="form-group col-md-12">
-                                                <label>Enter  Unit Cost:</label>
-                                                <input type="text"  class="form-control" name="unit_cost" placeholder="unit cost"required>
-                        </div>
-
-                        <div class="form-row">
-                       
-                                <div class="form-group col-md-6">
-                                <label>Select Product Type:</label>
-                                </div>
-                                <!--<div class="form-group col-md-3">
-                                <select name="allow_decimal" class="custom-select mb-3">
-                                <option value="1">Allow</option>
-                                <option value="0">Not Allow</option>
-                                </select>
-                                                                    
-                                </div>-->
-                                <div class="form-group col-md-6">
-                                <select name="product_type" class="custom-select mb-3">
-                                    <option value="goods">Goods</option>
-                                     <option value="service">Service</option>
-                                </select>
-                                                                    
-                                </div>
+                                        <div class="form-group col-md-6">
+                                                <label>Enter  Material Unit Cost:</label>
+                                                <input type="text"  class="form-control" name="unit_cost" placeholder="Rs."required>
+                                        </div>
                         </div>
                     </div>
                     <div class="">
-                                <button type="submit" name="submit" value="submit" class="btn btn-success">Create product</button>
+                                <button type="submit" name="submit" value="submit" class="btn btn-success ">Create Material</button>
+                                </br>
                  </div>
                 
             </form>
@@ -193,8 +205,8 @@ function showSubmitValidationMsg($validationHeader, $validationBody) {
 }
 ?>
 
-<table class="table border">
-    <thead>
+<table id="scroll-table" class="table table-hover table-striped table-responsive-sm">
+ <thead class="thead-dark">
     <tr class="">
         <th class="">ID</th>
         <th class="">Product Name</th>
@@ -209,7 +221,7 @@ function showSubmitValidationMsg($validationHeader, $validationBody) {
     <tbody>
     <?php
     $dbQuerySelect = "SELECT product.id,product.product_name,product.product_desc,product.product_type,product.uom_code,product.unit_cost,product.release_date,users.email
-                        FROM product JOIN users ON product.release_user = users.id;";
+                        FROM product JOIN users ON product.release_user = users.id WHERE product.product_type = 'goods';";
     if ($result = mysqli_query($conn, $dbQuerySelect)){
         if (mysqli_num_rows($result) > 0){
             while ($row = mysqli_fetch_assoc($result)){
@@ -256,4 +268,6 @@ function showSubmitValidationMsg($validationHeader, $validationBody) {
         });
     });
 </script>
+             <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="../assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 <?//php include_once 'mainFooter.php'; ?>

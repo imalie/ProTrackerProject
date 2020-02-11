@@ -254,6 +254,7 @@ function check_old_pass($conn, $oldPassword)
     <!-- <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../res/ad/bootstrap.css" />
 
     <style>
         .profile-img {
@@ -284,6 +285,8 @@ function check_old_pass($conn, $oldPassword)
         }
     </style>
 </head>
+<?php include('mainHead.php')
+            ?>
 
 <body>
     <div class="wrapper">
@@ -307,15 +310,14 @@ function check_old_pass($conn, $oldPassword)
             </div>
         </div>
         <div class="main-panel">
-            <?php include('mainHead.php')
-            ?>
+            
             <div class="content">
                 <div class="container-fluid">
                     <form method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 <div class="profile-img">
-                                    <img id="blah" src=<?php echo $_SESSION['userImage'] ?> alt="..." width="70%" />
+                                    <img id="blah" src="../doc/img/<?php echo $_SESSION['userImage'] ?>" alt="..." width="70%" />
                                     <label for="file-upload" class="file btn btn-lg btn-primary">
                                         Change Photo
                                     </label>
@@ -374,7 +376,7 @@ function check_old_pass($conn, $oldPassword)
                     </form>
                     <br />
                     <form method="post" enctype="multipart/form-data">
-                        <h4><u>Privacy Informations</u></h4>
+                        <h4><u>Privacy Information</u></h4>
                         <div class="row">
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 <label>Old password:</label><?php if (isset($validateError['oldPassword'])) {

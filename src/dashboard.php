@@ -53,13 +53,13 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
+            <a class="nav-link" href="./notifications.php">
               <i class="material-icons">notifications</i>
               <p>Notifications</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./ReportCenter.php">
+            <a class="nav-link" href="./reportCenter.php">
               <i class="material-icons">
                 account_balance
               </i>
@@ -76,7 +76,7 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-warning card-header-icon">
                   <div class="card-icon">
@@ -89,12 +89,12 @@
                 <div class="card-footer">
                   <div class="stats">
                     <i class="material-icons">exit_to_app</i>
-                    <a href="/Pro_Tracker/src/UserReport.php">View More User details..</a>
+                    <a href="./UserReport.php">View More User details..</a>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-bg-secondary card-header-icon">
                   <div class="card-icon">
@@ -111,7 +111,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-danger card-header-icon">
                   <div class="card-icon">
@@ -128,7 +128,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-success card-header-icon">
                   <div class="card-icon">
@@ -145,7 +145,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-primary card-header-icon">
                   <div class="card-icon">
@@ -162,7 +162,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="card card-stats">
                 <div class="card-header card-header-info card-header-icon">
                   <div class="card-icon">
@@ -174,11 +174,31 @@
                 <div class="card-footer">
                   <div class="stats">
                     <i class="material-icons">exit_to_app</i>
-                    <a href="/Pro_Tracker/src/progress.php"> view More Progress details..</a>
+                    <a href="/Pro_Tracker/src/progressList.php"> view More Progress details..</a>
                   </div>
                 </div>
               </div>
             </div>
+
+              <div class="col-lg-4 col-md-6 col-sm-6">
+                  <div class="card card-stats">
+                      <div class="card-header card-header-warning card-header-icon">
+                          <div class="card-icon">
+                              <i class="material-icons">
+                                  card_giftcard
+                              </i>
+                          </div>
+                          <!-- <p class="card-category">Followers</p> -->
+                          <h3 class="card-title">material Movements</h3>
+                      </div>
+                      <div class="card-footer">
+                          <div class="stats">
+                              <i class="material-icons">exit_to_app</i>
+                              <a href="/Pro_Tracker/src/projectList.php"> view More material details..</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
         </div>
       </div>
