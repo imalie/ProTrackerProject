@@ -118,39 +118,39 @@ if (isset($_POST['submit'])){
                 include_once '../controllers/config.inc.php';
                 ?>
                 <div class="container">
-                    <h1>Material Creation</h1>
+                    <h1>Service Creation</h1>
                     <form class="form-group" method="post">
                         <div>
-                            <h4>Add New  Material Deatil </h4>
+                            <h4>Add New Service Details </h4>
                         </div>
                         <div>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <label>Enter meterialt Name :</label>
+                                    <label>Enter Service Name :</label>
                                     <input type="text"  class="form-control"name="product_name" placeholder="Product name" required>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <label>Enter  Material Description:</label>
+                                    <label>Enter  Service Description:</label>
                                     <textarea required="required"  name="product_desc" class="form-control"
                                               placeholder="Enter product Description in detail"></textarea>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label>Enter Material Unit Of Measure code:</label>
+                                    <label>Enter Serivce Unit Of Measure code:</label>
                                     <input type="text" class="form-control" id="uom" name="uom_code" placeholder="uom"
                                            autocomplete="off" class="ui-autocomplete-input">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label>Enter  Material Unit Cost:</label>
+                                    <label>Enter Service Unit Cost:</label>
                                     <input type="text"  class="form-control" name="unit_cost" placeholder="Rs."required>
                                 </div>
                             </div>
                         </div>
                         <div class="">
-                            <button type="submit" name="submit" value="submit" class="btn btn-success ">Create Material</button>
+                            <button type="submit" name="submit" value="submit" class="btn btn-success ">Create Service</button>
                             </br>
                         </div>
 

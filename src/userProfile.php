@@ -107,9 +107,9 @@ if (isset($_POST['update'])) {
                 global $imgUploadStatus;
                 $imgUploadStatus['uploadStatus'] = "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
                 //update current image name
-                $_SESSION['userImage'] = $target_Direction;
+                $_SESSION['userImage'] = $imageNewName;
                 //image name send to database
-                updateImg($conn, $target_Direction);
+                updateImg($conn, $imageNewName);
             } else {
                 $imgUploadedError['uploadError6'] = "Sorry, there was an error uploading your file.";
             }
@@ -317,7 +317,7 @@ function check_old_pass($conn, $oldPassword)
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 <div class="profile-img">
-                                    <img id="blah" src="../doc/img/<?php echo $_SESSION['userImage'] ?>" alt="..." width="70%" />
+                                    <img id="blah" src="../doc/img/<?php echo $_SESSION['userImage']; ?>" alt="..." width="70%" />
                                     <label for="file-upload" class="file btn btn-lg btn-primary">
                                         Change Photo
                                     </label>

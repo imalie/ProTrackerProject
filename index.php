@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     if (empty($_POST["userEmail"])) {
         $errorList['emailError'] = "Enter user email";
     } else {
-        // check if e-mail address is well-formed condition wheather it is true or false
+        // check if e-mail address is well-formed condition whether it is true or false
         if (!filter_var($_POST["userEmail"], FILTER_VALIDATE_EMAIL)){
             $errorList['emailError'] = "Email is invalid";
         }

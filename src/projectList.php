@@ -44,7 +44,7 @@
                             <i class="material-icons">
                                 assignment
                             </i>
-                            <p>Project Report</p>
+                            <p>Project  List View</p>
                         </a>
                     </li>
                 </ul>
@@ -92,9 +92,8 @@
                                             <td>' . $row['end_date'] . '</td>
                                             <td>' . $row['release_date'] . '</td>
                                             <td class="btn btn-outline-info"><a href="projectViewer.php?id=' . $row['id'] . '">View</a></td>
-                                            <td class="btn btn-outline-info"><a href="projectApproval.php?id=' . $row['id'] . '">View</a></td>
-                                 
-
+                                            <td class="btn btn-outline-info"><a href="projectApproval.php?id=' . $row['id'].'">Check</a></td>
+                                            
                                         </tr>';
                                     }
                                 } else {

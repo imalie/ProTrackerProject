@@ -198,7 +198,7 @@ function check_duplicate_proname($conn, $proName)
                 <div class="col-lg-12 col-md-6 col-sm-6">
           
 
-                  <h3 class=""> Project Information
+                  <h3 class="">  Create Project
                   </h3>
             
 

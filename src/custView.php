@@ -121,7 +121,7 @@ if (isset($_POST['update'])) {
                 $imgUploadStatus['uploadStatus'] = "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
                 
                 //image name send to database
-                updateImg($conn, $target_Direction);
+                updateImg($conn, $imageNewName);
             } else {
                 $imgUploadedError['uploadError6'] = "Sorry, there was an error uploading your file.";
             }
@@ -131,13 +131,13 @@ if (isset($_POST['update'])) {
 
 
 // define variable and set value
-$id = $firstName = $lastName = $address = $telNo = $nic = $occupation = $email = $userStatus = '';
+$id = $firstName = $lastName = $address = $telNo = $nic = $occupation = $email = $userStatus = $cust_Image = '';
 // run the function for get user info
 getUserInfo($conn);
 // define function for fet user info form db
 function getUserInfo($conn)
 {
-    global $id, $firstName, $lastName, $address, $telNo, $nic, $occupation, $email, $userStatus;
+    global $id, $firstName, $lastName, $address, $telNo, $nic, $occupation, $email, $userStatus, $cust_Image;
     //define db query
     $dbSelectQuery = "SELECT * FROM `customer` WHERE `id`=" . $_GET['id'] . ";";
     //get the result from db
@@ -153,6 +153,7 @@ function getUserInfo($conn)
         $occupation = $row['occupation'];
         $email = $row['email'];
         $userStatus = $row['status'];
+        $cust_Image = $row['user_img'];
     } else {
         echo 'DB Error';
     }
@@ -165,7 +166,6 @@ function updateImg($conn, $imageNewName)
     if (mysqli_query($conn, $dbImgUpdateQuery)) {
         global $imgUploadStatus;
         $imgUploadStatus['dbStatus'] = "Upload success to database";
-        $_SESSION['userImage'] = $imageNewName;
     } else {
         global $imgUploadedError;
         $imgUploadedError['dbError'] = "Upload error image to database";
@@ -294,7 +294,7 @@ function check_duplicate_nic($conn, $nic)
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 <div class="profile-img">
-                                    <img id="blah" src="<?php echo $_SESSION['userImage']; ?>" alt="..." width="70%" />
+                                    <img id="blah" src="../doc/img/<?php echo $cust_Image; ?>" alt="..." width="70%" />
                                     <label for="file-upload" class="file btn btn-lg btn-primary">
                                         Change Photo
                                     </label>
@@ -340,12 +340,13 @@ function check_duplicate_nic($conn, $nic)
                                                                     <input type="text" name="occupation" class="form-control" value="<?php echo $occupation; ?>" placeholder="Occupation">
                                     </div>
                                 </div>
+                                                                </br>
                                 <div class="row">
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                        <label>NIC Number:</label><?php if (isset($validateError['nic'])) {
+                                        <!-- <label>NIC Number:</label><?php if (isset($validateError['nic'])) {
                                                                 echo '<label class="text-danger">  ' . $validateError['nic'] . '</label>';
-                                                            } ?>
-                                        <input class="form-control" type="text" name="nic" value="<?php echo $nic; ?>">
+                                                            } ?> -->
+                                        <input class="form-control" type="text" name="nic" value="<?php echo $nic; ?>"disabled>
                                     </div>                              
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                         <label>Email:</label>

@@ -35,4 +35,20 @@ if (isset($_POST['product_details'])){
     // Return results as json encoded array
     echo json_encode($data_set);
 }
+if (isset($_POST['project_invest'])){
+    $dbQueryPro = "SELECT id,pro_name FROM project WHERE is_invest = 0 AND is_stages = 1 AND pro_name LIKE '%".$_POST['project_invest']."%' LIMIT 10;";
+    // get the result from db
+    $db_pro_name = mysqli_query($conn, $dbQueryPro);
+    // Generate array with skills data
+    $pro_data_set = array();
+    if (mysqli_num_rows($db_pro_name) > 0) {
+        while ($row = mysqli_fetch_assoc($db_pro_name)) {
+            $data['id'] = $row['id'];
+            $data['value'] = $row['pro_name'];
+            array_push($pro_data_set, $data);
+        }
+    }
+    // Return results as json encoded array
+    echo json_encode($pro_data_set);
+}
 

@@ -117,7 +117,7 @@ if (isset($_POST['update'])) {
                 $imgUploadStatus['uploadStatus'] = "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
 
                 //image name send to database
-                updateImg($conn, $target_Direction);
+                updateImg($conn, $imageNewName);
             } else {
                 $imgUploadedError['uploadError6'] = "Sorry, there was an error uploading your file.";
             }
@@ -126,14 +126,14 @@ if (isset($_POST['update'])) {
 }
 
 // define variable and set value
-$id = $firstName = $lastName = $address = $telNo = $nic = $email = $userType = $userStatus = '';
+$id = $firstName = $lastName = $address = $telNo = $nic = $email = $userType = $userStatus = $userImage = '';
 // run the function for get user info
 getUserInfo($conn);
 // define function for fet user info form db
 function getUserInfo($conn)
 {
     if (isset($_GET['id'])) {
-        global $id, $firstName, $lastName, $address, $telNo, $nic, $email, $userType, $userStatus;
+        global $id, $firstName, $lastName, $address, $telNo, $nic, $email, $userType, $userStatus, $userImage;
         //define db query
         $dbSelectQuery = "SELECT * FROM `users` WHERE `id`=" . $_GET['id'] . ";";
         //get the result from db
@@ -149,6 +149,7 @@ function getUserInfo($conn)
             $email = $row['email'];
             $userType = $row['user_type'];
             $userStatus = $row['status'];
+            $userImage = $row['user_img'];
         }
     }
 }
@@ -160,7 +161,6 @@ function updateImg($conn, $imageNewName)
     if (mysqli_query($conn, $dbImgUpdateQuery)) {
         global $imgUploadStatus;
         $imgUploadStatus['dbStatus'] = "Upload success to database";
-        $_SESSION['userImage'] = $imageNewName;
     } else {
         global $imgUploadedError;
         $imgUploadedError['dbError'] = "Upload error image to database";
@@ -195,7 +195,7 @@ function check_old_pass($conn, $oldPassword)
 function check_duplicate_nic($conn, $nic)
 {
     //define query variable and set the db query
-    $dbQuery = "SELECT nic FROM `users` WHERE email = '" . $nic . "';";
+    $dbQuery = "SELECT nic FROM `users` WHERE nic = '" . $nic . "';";
     //get the result from db
     $dbResult = mysqli_query($conn, $dbQuery);
     if ($dbResult && mysqli_num_rows($dbResult) == 1) {
@@ -282,13 +282,13 @@ function check_duplicate_nic($conn, $nic)
           
             <div class="content">
                 <div class="container-fluid">
-                    <h3><u>User Informations</u></h3>
+                    <h3><u>User Information</u></h3>
 
                     <form class="container" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 <div class="profile-img">
-                                    <img id="blah" src="<?php echo $_SESSION['userImage']; ?>" alt="..." width="70%" />
+                                    <img id="blah" src="../doc/img/<?php echo $userImage; ?>" alt="..." width="70%" />
                                     <label for="file-upload" class="file btn btn-lg btn-primary">
                                         Change Photo
                                     </label>
@@ -329,7 +329,7 @@ function check_duplicate_nic($conn, $nic)
                                         <label>NIC:</label><?php if (isset($validateError['nic'])) {
                                                                 echo '<label class="text-danger">  ' . $validateError['nic'] . '</label>';
                                                             } ?>
-                                        <input class="form-control" type="text" name="nic" value="<?php echo $nic; ?>">
+                                        <input class="form-control" type="text" name="nic" value="<?php echo $nic; ?>" disabled>
                                     </div>
                                 </div>
                                 <div class="row">

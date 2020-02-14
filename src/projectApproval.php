@@ -2,9 +2,60 @@
 session_start();
 include_once '../controllers/config.inc.php';
 
-$id = $proOwnerId = $proName = $approxBudget = "";
+$pro_id = $_GET['id'];
+$proName = $approxBudget=$is_approval= $access_trans = $water=$electricity=$space_available=$invest_comment="";
 
+$dbqu = "SELECT investigation.invest_comment,investigation.access_trans,investigation.water,investigation.electricity,investigation.space_available,investigation.invest_comment,project.pro_name,project.approx_budget FROM investigation
+                JOIN project ON investigation.pro_id = project.id WHERE investigation.pro_id = '".$pro_id."';";
 
+if ($result = mysqli_query($conn,$dbqu)){
+    if (mysqli_num_rows($result) == 1){
+        $row = mysqli_fetch_assoc($result);
+        print_r($row);
+        $proName = $row['pro_name'];
+        $approxBudget=$row['approx_budget'];
+        $access_trans = $row['access_trans'];
+        $electricity=$row['electricity'];
+        $water=$row['water'];
+        $space_available=$row['space_available'];
+        $invest_comment=$row['invest_comment'];
+        print_r($access_trans);
+    }
+}
+
+$validateError = array();
+$SubmitStatus = null;
+$approval_status=null;
+if (isset($_POST['submit'])) {
+    $approval_status = $_POST['approval_status'];
+    $approval_status_comment = $_POST['approval_status_comment'];
+
+    if(empty($invest_comment)) {
+        $validateError['invest_comment'] = "comment is empty";
+    }
+
+    // check if any error
+    if (0 === count($validateError)) {
+ $dbQuery = "UPDATE project SET is_approval= '".$app."' WHERE id = '" . $pro_id . "';";
+//        if (mysqli_query($conn, $dbQuery)) {
+//
+//            if (mysqli_query($conn, $dbQuery)) {
+//                $SubmitStatus = "  project Approved  successfully";
+//            } else {
+//                $SubmitStatus = "Error in Creating Investigation";
+//            }
+//        } else {
+//            $SubmitStatus = "Update error to database";
+//        }
+//        //close the db connection
+//        mysqli_close($conn);
+//        print_r($SubmitStatus);
+
+}
+
+    }
+
+//   
 
 ?>
 
@@ -80,42 +131,104 @@ $id = $proOwnerId = $proName = $approxBudget = "";
 
                     <form class="form-group" method="get">
                     <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-12">
                                 <label id = "bold">Project Name:</label>
                                 <br>
-                                <input class="form-control" type="text" value="" placeholder="Disabled project Name..." disabled>
+                                <input class="form-control" type="text" value="<?php echo $proName; ?>" placeholder="Disabled project Name..." disabled>
                                 
                             </div>
-                            <div class="form-group col-md-6">
-                                <label  id = "bold">Project Owner :</label>
-                                <br>
-                                <input class="form-control" type="text" value="" placeholder="Disabled project  Owner Name..." disabled>
-                            </div>
+
                     </div>
                         <div class="form-row">
 
                             <div class="form-group col-md-12">
                                 <label>Approximated Budget</label>
                                 <br>
-                                    <input type="text" class="form-control" name="approx_budget" placeholder="Disabled Approximate budget" Disabled>
+                                    <input type="text" class="form-control" name="approx_budget"  value="<?php echo $approxBudget?>"placeholder="Disabled Approximate budget" Disabled>
 
 
                                 </div>
                             </div>
                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                    <label id="bold">Check Investigation Report submitted:</label>
-                                    <br>
-                                    <a href="investigation.php?id=' . $row['id'] . '"><input class="btn btn-info" type="button" value="View Investigation "></a>
-<!--                                    <button type="submit" name="submit" value="submit" class="btn btn-info">Investigation Report</button>-->
-                            </div>
-                            <div class="form-group col-md-6">
+                  <div class="form-row" >
+                      <div class="form-group col-md-3" >
+                          <label id = "bold" style="padding-left:6px"> Accessability In Transportation :</label>
+
+                      </div>
+                      <div class="form-group col-md-9">
+                          <div class="form-row col-md-12">
+                              <div class="form-check form-check-radio form-check-inline"  style="padding-left:4px">
+                                  <label class="form-check-label" style="padding-left:4px">
+                                      <input class="form-check-input" type="radio" id="lineRadio_ok" <?php if ($access_trans == 1) {echo 'checked';} ?>>OK
+                                      <span class="circle"  >
+                                                    <span class="check"></span>
+                                                </span>
+                                  </label>
+                              </div>
+                              <div class="form-check form-check-radio form-check-inline" style="padding-left:6px">
+                                  <label class="form-check-label" style="padding-left:4px">
+                                      <input class="form-check-input" type="radio" id="inlineRadio_need_to_improve" <?php if ($access_trans == 0) { echo 'checked';} ?>> Need to be Improved
+                                      <span class="circle">
+                                                    <span class="check"></span>
+                                                </span>
+                                  </label>
+                              </div>
+
+                              <?php if (isset($validateError['userType'])) {
+                                  echo '<span class="text-danger">  ' . $validateError['access_trans'] . '</span>';
+                              } ?>
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="form-row">
+                      <div class="form-group col-md-3">
+                          <label id = "bold" style="padding-left:6px"> Infrastructure of Area :</label>
+                          <br>
+                      </div>
+
+                      <div class="form-group col-md-9">
+                          <div class="form-row col-md-12">
+                              <div class="form-check-inline">
+                                  <label class="form-check-label" for="check1">
+                                      <input type="checkbox" class="form-check-input" id="check1" name="electricity" value="1"<?php if ($electricity == 1) {echo 'checked';} ?>>Electricity
+                                  </label>
+                              </div>
+                              <div class="form-check-inline">
+                                  <label class="form-check-label" for="check2">
+                                      <input type="checkbox" class="form-check-input" id="check2" name="water" value="1"<?php if ($water == 1) {echo 'checked';} ?>>Water
+                                  </label>
+                              </div>
+                              <div class="form-check-inline">
+                                  <label class="form-check-label" for="check2">
+                                      <input type="checkbox" class="form-check-input" id="check3" name="space" value="1"<?php if ($space_available == 1) {echo 'checked';} ?>>Space Availability of Site Office
+                                  </label>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+                <div class="form-row" style="padding-left:15px ; padding-right:10px">
+                    <div class="form-group col-md-12">
+                        <label id = "bold" style="padding-left:15px">Additional Comments:</label>
+                        <br>
+                        <textarea required="required" name="invest_comment"  rows="5" class="form-control" placeholder=" Investigation comment here"> <?php echo $invest_comment?></textarea>
+                        <?php if (isset($validateError['invest_comment'])) {
+                            echo '<span style="color:red" >  ' . $validateError['invest_comment'] . '</span>';
+                        } ?>
+                    </div>
+                </div>
+                  <div class="form-group col-md-6">
                                 <label>Status:</label>
                                 <div class="form-row">
                                     <div class="form-check form-check-radio form-check-inline">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="approval" id="lineRadio_approve" value="approved">Approve
+                                            <input class="form-check-input" type="radio" name="approval" id="lineRadio_approve" value="approved"><?php if ($is_approval === "1") {
+                                                echo 'checked';
+                                            } ?>Approve
                                             <span class="circle">
                                                 <span class="check"></span>
                                             </span>
@@ -123,7 +236,9 @@ $id = $proOwnerId = $proName = $approxBudget = "";
                                     </div>
                                     <div class="form-check form-check-radio form-check-inline">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="approval" id="inlineRadio_reject" value="reject">Reject
+                                            <input class="form-check-input" type="radio" name="approval" id="inlineRadio_reject" value="reject"><?php if ($is_approval === "0") {
+                                                echo 'checked';
+                                            } ?>Reject
                                             <span class="circle">
                                                 <span class="check"></span>
                                             </span>

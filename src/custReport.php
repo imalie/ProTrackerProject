@@ -54,8 +54,10 @@
                     ?>
                     <!--<button type="button" class="btn btn-outline-secondary"><a href="custAdd.php">
                             <i class="material-icons">account_circle</i>Add Customer</a></button>-->
+                    <h3>
+                        <u>Customer List</u>
+                    </h3>
 
-                    
                     
 
                         <table class="table table-hover table-striped table-responsive-sm">

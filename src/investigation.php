@@ -32,15 +32,17 @@ if (isset($_POST['submit'])) {
 
         $dbQuery = "INSERT INTO investigation(pro_id, access_trans, electricity, water, space_available,invest_comment, release_user)
                                VALUES ('".$pro_id."','".$accessTrans."','".$electricity."','".$water."','".$space."','".$invest_comment."','" . $_SESSION['userID'] . "');";
-        print_r($dbQuery);
+
         if (mysqli_query($conn, $dbQuery)) {
-            $SubmitStatus = "Customer created successfully";
+            $dbQueryInvest = "UPDATE project SET is_invest= '1' WHERE id = '".$pro_id."';";
+            if (mysqli_query($conn,$dbQueryInvest)) {
+                $SubmitStatus = " Investigation created successfully";
+            } else {$SubmitStatus = "Error in Creating Investigation";}
         } else {
             $SubmitStatus = "Update error to database";
         }
         //close the db connection
         mysqli_close($conn);
-        print_r($SubmitStatus);
     }
 }
 //?>
@@ -149,7 +151,7 @@ if (isset($_POST['submit'])) {
                     <div class="form-row">
                             <div class="form-group col-md-6">
                              <br>
-                                <input type="text" class="form-control" id="pro_id" name="pro_id" placeholder="Project Id">
+                                <input type="text" class="form-control" id="pro_id" name="pro_id" placeholder="Project Id" readonly>
                                 <label id = "bold">Project ID:</label>
                                 <br>
                                 
@@ -272,7 +274,7 @@ if (isset($_POST['submit'])) {
                 $.ajax({
                     url: "search_option.php",
                     type: "POST",
-                    data: { project_name: request['term'] }, // {project_name: "s"}
+                    data: { project_invest: request['term'] }, // {project_name: "s"}
                     dataType: 'json',
                     success: function (data) {
                         console.log(data);

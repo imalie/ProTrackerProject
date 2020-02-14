@@ -53,6 +53,8 @@ in_paid_state BOOLEAN DEFAULT 0 NOT NULL,
 full_paid_state BOOLEAN DEFAULT 0 NOT NULL,
 status VARCHAR(15) DEFAULT 'notstart', /* in progress, not start, finished */
 is_stages BOOLEAN DEFAULT 0 NOT NULL,
+is_invest BOOLEAN DEFAULT 0 NOT NULL,
+is_approval BOOLEAN DEFAULT 0 NOT NULL,
 release_user INT UNSIGNED NOT NULL,
 release_date DATETIME DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (pro_owner_id) REFERENCES customer(id),
@@ -187,3 +189,19 @@ release_date DATETIME DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (pro_id) REFERENCES project(id),
 FOREIGN KEY (release_user) REFERENCES users(id)
 );
+
+CREATE TABLE investigation (
+  id int UNSIGNED NOT NULL,
+  pro_id int UNSIGNED DEFAULT NULL,
+  access_trans tinyint(1) NOT NULL DEFAULT '1',
+  electricity tinyint(1) NOT NULL DEFAULT '0',
+  water tinyint(1) NOT NULL DEFAULT '0',
+  space_available tinyint(1) NOT NULL DEFAULT '0',
+  invest_comment varchar(100) NOT NULL,
+  release_user int UNSIGNED NOT NULL,
+  release_date datetime DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (pro_id) REFERENCES project(id)
+);
+
+SELECT investigation.invest_comment,investigation.access_trans,investigation.water,investigation.electricity,investigation.space_available,project.pro_name,project.approx_budget FROM investigation
+JOIN project ON investigation.pro_id = project.id WHERE investigation.pro_id = '1';
